@@ -1,0 +1,113 @@
+.container {
+	margin: 0 @container-gutter;
+	padding: 40px 0;
+}
+
+.container.limit .nav-container {
+	max-width: @limit;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.container.limit .row,
+.container.limit .page-heading {
+	float: none;
+	max-width: @limit;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.container .row {
+	float: left;
+	clear: both;
+	width: 100%;
+	margin-bottom: 60px;
+}
+
+.container .row.flush {
+	margin-bottom: 0;
+}
+
+.container .row .col {
+	float: left;
+	padding: 0 @right-gutter 0 @left-gutter;
+	display: inline;
+	min-height: 1px;
+}
+
+.container .row.reverse-stack > .col {
+	float: right;
+	padding: 0 @right-gutter 0 @left-gutter;
+}
+
+.container .row .col .col {
+	padding: 0;
+}
+
+.container.hero {
+	padding: 100px 30px;
+}
+
+.container.hero:not(.trans) {
+	background-color: @hero-background;
+}
+
+.container > :last-child,
+.container .row .col:empty {
+	margin-bottom: 0;
+}
+
+.container > :first-child,
+.container .row > :first-child,
+.container .row .col > :first-child,
+.container .row .col:empty {
+	margin-top: 0;
+}
+
+.container .col.of-1,
+.container .col.of-2,
+.container .col.of-3,
+.container .col.of-4,
+.container .col.of-5,
+.container .col.of-6,
+.container .col.of-7,
+.container .col.of-8,
+.container .col.of-9,
+.container .col.of-10,
+.container .col.of-11,
+.container .col.of-12 {
+	width: 100%
+}
+
+@media only screen and (min-width: 769px) {
+	.grid(@num-cols, @num-cols);
+	
+	.skip(@num-cols, @num-cols);
+	
+	.skip-reverse(@num-cols, @num-cols);
+	
+	.container .row .col .col {
+		padding: 0 @right-gutter 0 @left-gutter;
+	}
+	
+	.container .row .col .col:first-of-type {
+		padding-left: 0;
+	}
+	
+	.container .row .col .col:last-of-type {
+		padding-right: 0;
+	}
+	
+	.container .row.reverse-stack > .col:first-of-type {
+		padding-left: @left-gutter;
+	}
+	
+	.container .row.reverse-stack > .col:last-of-type {
+		padding-right: @right-gutter;
+	}
+	
+	.container .row > :last-child,
+	.container .row .col > :last-child {
+		margin-bottom: 0;
+	}
+}

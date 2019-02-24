@@ -1,0 +1,387 @@
+nav.bar {
+	width: 100%;
+	background-color: transparent;
+}
+
+nav.bar .brand {
+	float: right;
+	padding: 10px @right-gutter 10px @left-gutter;
+	font-size: 200%;
+	max-height: 100%;
+	color: @black;
+	.transition(all, .3s, ease-in-out);
+}
+
+nav.bar .brand:hover,
+nav.bar .brand:focus {
+	outline: none;
+	color: @nav-basic-hover-color;
+}
+
+nav.bar .brand img {
+	display: inline-block;
+	max-height: 39px;
+	width: auto;
+	padding: 2px 0 6px 0;
+	vertical-align: middle;
+}
+
+nav.bar.right .brand {
+	float: left;
+}
+
+nav.bar.center .brand {
+	padding: 10px @right-gutter 0 @left-gutter;
+	display: block;
+	float: none;
+}
+
+nav.bar ul {
+	list-style: none;
+	text-align: left;
+	padding: 0;
+}
+
+nav.bar > ul {
+	padding: 0 @right-gutter 0 @left-gutter;
+	height: 0;
+	width: 100%;
+	overflow: hidden;
+	.transition(height, .3s, ease-in-out);
+}
+
+nav.bar > ul > li:last-child {
+	margin-bottom: 20px;
+}
+
+nav.bar .nav-link {
+	margin: 12px @right-gutter 12px @left-gutter;
+	vertical-align: middle;
+}
+
+nav.bar.right ul {
+	text-align: right;
+}
+
+nav.bar.right .nav-link {
+	float: right;
+}
+
+nav.bar.center ul {
+	text-align: center;
+}
+
+nav.bar ul .drop ul {
+	font-size: 80%;
+}
+
+nav.bar ul .drop ul ul {
+	font-size: 100%;
+}
+
+nav.bar ul a {
+	font-weight: 200;
+	color: @nav-basic-color;
+	display: block;
+	padding: 10px 0;
+}
+
+nav.bar ul li.active > a {
+	font-weight: 600;
+	color: @nav-basic-hover-color;
+}
+
+nav.heavy ul a {
+	font-weight: 500;
+}
+
+nav.heavier ul a {
+	font-weight: 900;
+}
+
+nav.bar.heavy ul li.active > a,
+nav.bar.heavier ul li.active > a {
+	font-weight: 500;
+}
+
+nav.bar li.drop > a[href="#"],
+nav.bar li.drop:hover > a[href="#"] {
+	color: @nav-drop-hash-href;
+	cursor: default;
+}
+
+@media only screen and (min-width: 769px) {
+	
+	.stickyglue > nav.bar.limit {
+		max-width: @limit !important;
+		margin: auto !important;
+	}
+	
+	nav.bar,
+	nav.bar ul {
+		height: auto;
+		width: auto;
+		overflow: visible;
+	}
+	
+	nav.bar.center .brand {
+		padding-top: 20px;
+		display: inline-block;
+	}
+
+	nav.bar.center .brand.force-left {
+		margin: 0 @right-gutter 0 @left-gutter;
+		float: left;
+	}
+	
+	nav.bar.center .brand.force-right {
+		margin: 0 @right-gutter 0 @left-gutter;
+		float: right;
+	}
+	
+	nav.bar > ul > li {
+		display: inline-block;
+		padding: 20px;
+		margin: 0 !important;
+	}
+	
+	nav.bar ul a {
+		display: inline;
+	}
+	
+	nav.bar li:hover > a,
+	nav.bar li > a:hover,
+	nav.bar li > a:focus {
+		color: @nav-basic-hover-color;
+		outline: none;
+	}
+	
+	// Top level links
+	nav.bar ul > li > a {
+		padding: 20px 0;
+		height: 80px;
+		.transition(all, .2s, ease-in-out);
+	}
+	
+	// Dropdown link root
+	nav.bar ul li.drop {
+		position: relative;
+	}
+	
+	// Dropdown list container
+	nav.bar .box {
+		width: 180px;
+		position: absolute;
+		left: -9999px;
+		margin-left: -90px;
+		top: 50px;
+		z-index: 5000;
+	}
+	
+	// Dropdown list
+	nav.bar ul.inner {
+		width: 100%;
+		text-align: center;
+		background-color: @white;
+		float: left;
+		position: relative;
+		margin: 0;
+		padding: 10px;
+		opacity: 0;
+		.border-radius(3px);
+		.box-shadow(~'', 0, 0, 3px, 0, rgba(0,0,0,.25));
+		
+		-webkit-transition: margin 0.2s ease-in-out, opacity 0.2s ease-in-out;
+		-moz-transition: margin 0.2s ease-in-out, opacity 0.2s ease-in-out;
+		-ms-transition: margin 0.2s ease-in-out, opacity 0.2s ease-in-out;
+		-o-transition: margin 0.2s ease-in-out, opacity 0.2s ease-in-out;
+		transition: margin 0.2s ease-in-out, opacity 0.2s ease-in-out;
+	}
+	
+	// Hover state of dropdown list container
+	nav.bar li.drop:hover > .box,
+	nav.bar li.drop a:focus + .box,
+	nav.bar li.drop.dropped .box {
+		left: 50%;
+	}
+	
+	// Hover state of dropdown list
+	nav.bar li.drop:hover > .box > .inner,
+	nav.bar li.drop a:focus + .box > .inner,
+	nav.bar li.drop.dropped .box > .inner {
+		opacity: 1;
+		margin-top: 5px;
+	}
+	
+	// Hover state of dropdown list
+	nav.bar li.drop:hover > .box > .inner,
+	nav.bar li.drop a:focus + .box > .inner,
+	nav.bar li.drop.dropped .box > .inner {
+		opacity: 1;
+		margin-top: 5px;
+	}
+	
+	// Dropdown list container n+1th tier
+	nav.bar ul li.drop li.drop .box {
+		left: 120%;
+		top: -15px;
+	}
+	
+	// Dropdown (right) list container n+1th tier
+	nav.bar.right li.drop li.drop .box {
+		left: -20%;
+	}
+	
+	// Dropdown list item
+	nav.bar ul.inner li {
+		padding: 10px;
+		.transition(background, .3s, ease-out);
+		.border-radius(2px);
+	}
+	
+	// Dropdown list item hover
+	nav.bar ul.inner li:hover,
+	nav.bar ul.inner li.hover {
+		background-color: #ebebeb;
+	}
+	
+	nav.bar ul.inner li:hover > a,
+	nav.bar ul.inner li > a:focus {
+		color: @black;
+	}
+	
+	nav.bar > ul > li:last-of-type {
+		padding-right: 0;
+	}
+	
+	nav.bar > ul > li:first-of-type {
+		padding-left: 0;
+	}
+		
+	.nav-link {
+		display: none !important;
+	}
+}
+
+/* Nav Dark */
+
+nav.bar.dark,
+nav.bar.dark ul {
+	color: @white;
+	background-color: @nav-dark-background;
+}
+
+nav.bar.dark .brand {
+	color: @white;
+}
+
+nav.bar.dark .brand:hover {
+	color: @nav-basic-hover-color;
+}
+
+nav.bar.dark ul li a {
+	color: @nav-dark-color;
+}
+
+nav.bar.dark ul li a:hover {
+	color: @nav-dark-hover-color;
+}
+
+nav.bar.dark ul li.active > a {
+	color: @nav-dark-hover-color;
+}
+
+@media only screen and (min-width: 769px) {
+	
+	nav.bar.dark ul li.drop ul {
+		background-color: @white;
+	}
+	
+	nav.bar.dark li.drop ul a {
+		color: @nav-basic-color;
+	}
+	
+	// Dropdown list item hover
+	nav.bar.dark ul.inner li:hover,
+	nav.bar.dark ul.inner li.hover {
+		background-color: #3f3f3f;
+	}
+	
+	// Dropdown list item hover (the link)
+	nav.bar.dark ul.inner li:hover > a,
+	nav.bar.dark ul.inner li > a:focus {
+		color: @white;
+	}
+}
+
+/* Sticky Nav */
+
+// Kind of goes against “mobile first” but this is the cleanest solution I can see
+@media only screen and (max-width: 768px) {
+
+	div.stickybump {
+		height: 100% !important;
+	}
+
+}
+
+@media only screen and (min-width: 769px) {
+	nav.bar.sticky,
+	.stickyglue.sticky {
+		position: fixed;
+		top: 0;
+		z-index: 9000;
+		width: 100%;
+		max-width: 100%;
+		background-color: @white;
+	}
+	
+	nav.bar.overhang,
+	.stickyglue.overhang {
+		.box-shadow(~'', 0, 0, 4px, 0, rgba(0, 0, 0, .3));
+	}
+	
+	.stickyglue.dark {
+		background-color: @nav-dark-background;
+	}
+	
+	.stickyglue.transparent {
+		background-color: transparent;
+	}
+	
+	.stickyglue.transparent nav {
+		pointer-events: none;
+	}
+	
+	.stickyglue.transparent nav a {
+		pointer-events: all;
+	}
+	
+	.stickyglue > nav.bar.sticky {
+		position: relative;
+		width: 100%;
+	}
+	
+	.stickyglue > nav.bar.limit {
+		max-width: @limit;
+	}
+	
+	.stickyglue > nav.bar.overhang {
+		.box-shadow-none();
+	}
+	
+	nav.bar.sticky {
+		background-color: @nav-basic-background;
+	}
+		
+	nav.bar.sticky.dark {
+		background-color: @nav-dark-background;
+	}
+}
+
+/* Transparency */
+
+nav.bar.transparent,
+nav.bar.transparent > ul {
+	background: transparent !important;
+}

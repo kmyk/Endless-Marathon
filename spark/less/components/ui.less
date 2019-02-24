@@ -1,0 +1,546 @@
+/* Buttons */
+
+.btn,
+.btn.silver,
+.btn.white {
+	display: inline-block;
+	padding: 4px 14px;
+	margin: 0;
+	vertical-align: middle;
+	text-decoration: none;
+	text-align: center;
+	word-wrap: break-word;
+	color: @btn-color;
+	line-height: 1.5;
+	border: none;
+	.background-size(100%, 170%);
+	.linear-gradient(top, lighten(@silver, 3%), darken(@silver, 12%), 100%, @silver);
+	.border-radius(2px);
+	.transition(all, 0.2s, ease-in-out);
+}
+
+.btn.black,
+.btn.blue,
+.btn.green,
+.btn.orange,
+.btn.red,
+.btn.purple,
+.btn.lime,
+.btn.dragonfruit,
+.btn.cosmic {
+	color: @white;
+}
+
+.btn:hover {
+	cursor: pointer;
+	text-decoration: none;
+	background-color: @silver;
+	.background-position(0, 50%);
+}
+
+.btn:focus {
+	outline-width: 1px;
+}
+
+.btn:active {
+	background-color: darken(@silver, 10%);
+	.background-position(0, 100%);
+}
+
+
+/* Flat buttons */
+
+.btn.flat,
+.btn.flat.silver,
+.btn.flat.white {
+	background-image: none !important;
+	background-color: @silver;
+	.appearance(none);
+}
+
+.btn.flat:hover {
+	background-color: darken(@silver, 5%);
+}
+
+.btn.flat:active {
+	background-color: darken(@silver, 10%);
+}
+
+
+
+/* Colors */
+
+
+.btn.black {
+    .linear-gradient(top, lighten(@black, 26%), @black, 100%, lighten(@black, 26%));
+}
+
+.btn.black.flat {
+	background: lighten(@black, 26%);
+}
+
+.btn.black.flat:hover {
+	background-color: lighten(@black, 20%);
+}
+
+.btn.black.flat:active {
+	background-color: lighten(@black, 14%);
+}
+
+
+
+.btn.blue {
+    .linear-gradient(top, @blue, darken(@blue, 15%), 100%, @blue);
+}
+
+.btn.blue.flat {
+	background-color: @blue;
+}
+
+.btn.blue.flat:hover {
+	background-color: darken(@blue, 5%);
+}
+
+.btn.blue.flat:active {
+	background-color: darken(@blue, 10%);
+}
+
+
+
+.btn.green {
+    .linear-gradient(top, @green, darken(@green, 15%), 100%, @green);
+}
+
+.btn.green.flat {
+	background-color: @green;
+}
+
+.btn.green.flat:hover {
+	background-color: darken(@green, 5%);
+}
+
+.btn.green.flat:active {
+	background-color: darken(@green, 10%);
+}
+
+
+
+.btn.orange {
+    .linear-gradient(top, @orange, darken(@orange, 15%), 100%, @orange);
+}
+
+.btn.orange.flat {
+	background-color: @orange;
+}
+
+.btn.orange.flat:hover {
+	background-color: darken(@orange, 5%);
+}
+
+.btn.orange.flat:active {
+	background-color: darken(@orange, 10%);
+}
+
+
+
+.btn.red {
+    .linear-gradient(top, @red, darken(@red, 15%), 100%, @red);
+}
+
+.btn.red.flat {
+	background-color: @red;
+}
+
+.btn.red.flat:hover {
+	background-color: darken(@red, 5%);
+}
+
+.btn.red.flat:active {
+	background-color: darken(@red, 10%);
+}
+
+
+
+.btn.purple {
+    .linear-gradient(top, @purple, darken(@purple, 15%), 100%, @purple);
+}
+
+.btn.purple.flat {
+	background-color: @purple;
+}
+
+.btn.purple.flat:hover {
+	background-color: darken(@purple, 5%);
+}
+
+.btn.purple.flat:active {
+	background-color: darken(@purple, 10%);
+}
+
+
+
+.btn.lime {
+    .linear-gradient(top, @lime, darken(@lime, 15%), 100%, @lime);
+}
+
+.btn.lime.flat {
+	background-color: @lime;
+}
+
+.btn.lime.flat:hover {
+	background-color: darken(@lime, 5%);
+}
+
+.btn.lime.flat:active {
+	background-color: darken(@lime, 10%);
+}
+
+
+
+.btn.dragonfruit {
+    .linear-gradient(top, @dragonfruit, darken(@dragonfruit, 15%), 100%, @dragonfruit);
+}
+
+.btn.dragonfruit.flat {
+	background-color: @dragonfruit;
+}
+
+.btn.dragonfruit.flat:hover {
+	background-color: darken(@dragonfruit, 5%);
+}
+
+.btn.dragonfruit.flat:active {
+	background-color: darken(@dragonfruit, 10%);
+}
+
+
+
+.btn.cosmic {
+    .linear-gradient(top, @cosmic, darken(@cosmic, 15%), 100%, @cosmic);
+}
+
+.btn.cosmic.flat {
+	background-color: @cosmic;
+}
+
+.btn.cosmic.flat:hover {
+	background-color: darken(@cosmic, 5%);
+}
+
+.btn.cosmic.flat:active {
+	background-color: darken(@cosmic, 10%);
+}
+
+.btn:disabled,
+.btn.disabled {
+	background: #747474 !important;
+	color: #a7a7a7 !important;
+}
+
+.btn:disabled:hover,
+.btn.disabled:hover {
+	cursor: default;
+}
+
+.btn-touch.disabled .bar {
+	background-color: #b8b8b8 !important;
+}
+
+
+
+/* Button Groups */
+
+.btn-group .btn {
+	margin: 0;
+	float: left;
+	.border-radius(0);
+	clear: both;
+	width: 100%;
+}
+
+.btn-group .btn:first-child {
+	.border-radius-corners(2px, 2px, 0, 0);
+}
+
+.btn-group .btn:last-child {
+	.border-radius-corners(0, 0, 2px, 2px);
+}
+
+@media only screen and (min-width: 769px) {
+	
+	.btn-group .btn {
+		float: left;
+		.border-radius(0);
+		clear: none;
+		width: auto;
+	}
+	
+	.btn-group .btn:first-child {
+		.border-radius-corners(2px, 0, 0, 2px);
+	}
+	
+	.btn-group .btn:last-child {
+		.border-radius-corners(0, 2px, 2px, 0);
+	}
+	
+}
+
+/* Touch buttons */
+
+.btn-touch {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 8px 0;
+	border: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	background: none;
+}
+
+.btn-touch .bar {
+	display: block;
+	height: 1px;
+	width: 20px;
+	margin: 3px 0;
+	float: right;
+	clear: both;
+	background: #4a4a4a;
+	.border-radius(2px);
+	.box-sizing(content-box);
+	.transition(all, .3s, ease-in-out);
+}
+
+.btn-touch.silver .bar {
+	background-color: @silver;
+}
+
+.btn-touch.white .bar {
+	background-color: @white;
+}
+
+.btn-touch.blue .bar {
+	background-color: @blue;
+}
+
+.btn-touch.green .bar {
+	background-color: @green;
+}
+
+.btn-touch.orange .bar {
+	background-color: @orange;
+}
+
+.btn-touch.red .bar {
+	background-color: @red;
+}
+
+.btn-touch.purple .bar {
+	background-color: @purple;
+}
+
+.btn-touch.lime .bar {
+	background-color: @lime;
+}
+
+.btn-touch.dragonfruit .bar {
+	background-color: @dragonfruit;
+}
+
+.btn-touch.cosmic .bar {
+	background-color: @cosmic;
+}
+
+.btn-touch:hover .bar {
+	background-color: #d7d7d7;
+}
+
+.btn-touch.white:hover .bar,
+.btn-touch.silver:hover .bar {
+	background-color: #747474;
+}
+
+
+/* Round touch buttons */
+
+.btn-touch-round {
+	display: inline-block;
+	margin: 0;
+	padding: 1px 0;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	background: none;
+	border: none;
+}
+
+.btn-touch-round .circle {
+	display: block;
+	height: 36px;
+	width: 36px;
+	border: 3px solid lighten(@black, 20%);
+	background-color: @white;
+	padding: 2px;
+	.border-radius(30px);
+	.transition(all, .2s, ease-in-out);
+}
+
+.btn-touch-round .circle .inner-circle {
+	background-color: #e1e1e1;
+	display: block;
+	height: 100%;
+	width: 100%;
+	//border: 3px solid lighten(@black, 20%);
+	border: 3px solid @white;
+	.border-radius(30px);
+	.transition(all, .5s, ease-in-out);
+}
+
+.btn-touch-round.active .circle {
+	border: 6px solid lighten(@black, 20%);
+	padding: 4px;
+}
+
+.btn-touch-round.white .circle,
+.btn-touch-round.white.active .circle {
+	border-color: @white;
+}
+
+.btn-touch-round.white .circle .inner-circle {
+	border-color: lighten(@black, 20%);
+}
+
+.btn-touch-round.silver .circle,
+.btn-touch-round.silver.active .circle {
+	border-color: darken(@silver, 30%);
+}
+
+.btn-touch-round.silver .circle .inner-circle {
+	border-color: darken(@silver, 20%);
+	border-color: @white;
+}
+
+.btn-touch-round.blue .circle,
+.btn-touch-round.blue.active .circle {
+	border-color: @blue;
+}
+
+.btn-touch-round.green .circle,
+.btn-touch-round.green.active .circle {
+	border-color: @green;
+}
+
+.btn-touch-round.orange .circle,
+.btn-touch-round.orange.active .circle {
+	border-color: @orange;
+}
+
+.btn-touch-round.red .circle,
+.btn-touch-round.red.active .circle {
+	border-color: @red;
+}
+
+.btn-touch-round.purple .circle,
+.btn-touch-round.purple.active .circle {
+	border-color: @purple;
+}
+
+.btn-touch-round.lime .circle,
+.btn-touch-round.lime.active .circle {
+	border-color: @lime;
+}
+
+.btn-touch-round.dragonfruit .circle,
+.btn-touch-round.dragonfruit.active .circle {
+	border-color: @dragonfruit;
+}
+
+.btn-touch-round.cosmic .circle,
+.btn-touch-round.cosmic.active .circle {
+	border-color: @cosmic;
+}
+
+.btn-touch-round.active .circle .inner-circle {
+	border-color: @touch-round-hover-inner-circle;
+}
+
+@media only screen and (min-width: 769px) {
+	
+	.btn-touch-round:hover .circle {
+		border: 6px solid lighten(@black, 20%);
+		padding: 4px;
+	}
+	
+	.btn-touch-round.white:hover .circle {
+		border-color: @white;
+	}
+	
+	.btn-touch-round.silver:hover .circle {
+		border-color: darken(@silver, 30%);
+	}
+	
+	.btn-touch-round.blue:hover .circle {
+		border-color: @blue;
+	}
+	
+	.btn-touch-round.green:hover .circle {
+		border-color: @green;
+	}
+	
+	.btn-touch-round.orange:hover .circle {
+		border-color: @orange;
+	}
+	
+	.btn-touch-round.red:hover .circle {
+		border-color: @red;
+	}
+	
+	.btn-touch-round.purple:hover .circle {
+		border-color: @purple;
+	}
+	
+	.btn-touch-round.lime:hover .circle {
+		border-color: @lime;
+	}
+	
+	.btn-touch-round.dragonfruit:hover .circle {
+		border-color: @dragonfruit;
+	}
+	
+	.btn-touch-round.cosmic:hover .circle {
+		border-color: @cosmic;
+	}
+	
+	.btn-touch-round:hover .circle .inner-circle {
+		border-color: @touch-round-hover-inner-circle;
+	}
+}
+
+
+/* Button sizes */
+
+.btn.small,
+.btn-group.small .btn {
+	padding: 2px 8px;
+	.border-radius(2px);
+	font-size: inherit;
+}
+
+.btn.hero,
+.btn-group.hero .btn {
+	max-width: 100%;
+	padding: 10px 14px;
+	font-size: 130%;
+	.border-radius(3px);
+}
+
+@media only screen and (min-width: 769px) {
+	
+	.btn.small,
+	.btn-group.small .btn {
+		font-size: 70%;
+		padding: 4px 8px;
+	}
+	
+	.btn.hero,
+	.btn-group.hero .btn {
+		padding: 10px 20px;
+		font-size: 180%;
+	}
+}

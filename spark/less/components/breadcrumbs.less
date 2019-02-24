@@ -1,0 +1,150 @@
+.breadcrumbs {
+	margin: 20px 0;
+}
+
+.breadcrumbs ol {
+	overflow: auto;
+	padding: 5px 10px;
+	list-style: none;
+	background-color: @breadcrumbs-default-background;
+	color: @breadcrumbs-default-color;
+	.border-radius(2px);
+}
+
+.breadcrumbs ol li {
+	float: left;
+	margin-right: 10px;
+	font-size: 70%;
+}
+
+.breadcrumbs ol li:after {
+	content: '::';
+	margin-left: 10px;
+	color: @breadcrumbs-default-separator;
+}
+
+.breadcrumbs ol li:last-child:after {
+	content: '';
+	margin: 0;
+	display: none;
+}
+
+.breadcrumbs ol li a {
+	color: @breadcrumbs-default-link;
+}
+
+.breadcrumbs ol li a:hover {
+	color: @breadcrumbs-default-link-hover;
+}
+
+.breadcrumbs.caps ol {
+	text-transform: uppercase;
+}
+
+.breadcrumbs.round ol {
+	.border-radius(20px);
+}
+
+/* White */
+
+.breadcrumbs.white ol {
+	background-color: @white;
+}
+
+/* Dark */
+
+.breadcrumbs.dark ol {
+	color: @breadcrumbs-dark;
+	background-color: @breadcrumbs-dark-background;
+}
+
+.breadcrumbs.dark ol li a {
+	color: @breadcrumbs-dark-link;
+}
+
+.breadcrumbs.dark ol li a:hover {
+	color: @breadcrumbs-dark-link-hover;
+}
+
+/* Colored */
+
+.breadcrumbs.blue ol,
+.breadcrumbs.green ol,
+.breadcrumbs.orange ol,
+.breadcrumbs.red ol,
+.breadcrumbs.purple ol,
+.breadcrumbs.lime ol,
+.breadcrumbs.dragonfruit ol,
+.breadcrumbs.cosmic ol {
+	color: @breadcrumbs-colored-color;
+}
+
+.breadcrumbs.blue ol li:after,
+.breadcrumbs.green ol li:after,
+.breadcrumbs.orange ol li:after,
+.breadcrumbs.red ol li:after,
+.breadcrumbs.purple ol li:after,
+.breadcrumbs.lime ol li:after,
+.breadcrumbs.dragonfruit ol li:after,
+.breadcrumbs.cosmic ol li:after {
+	color: @breadcrumbs-colored-separator;
+}
+
+.breadcrumbs.blue ol li a,
+.breadcrumbs.green ol li a,
+.breadcrumbs.orange ol li a,
+.breadcrumbs.red ol li a,
+.breadcrumbs.purple ol li a,
+.breadcrumbs.lime ol li a,
+.breadcrumbs.dragonfruit ol li a,
+.breadcrumbs.cosmic ol li a {
+	color: @breadcrumbs-colored-link;
+}
+
+.breadcrumbs.blue ol li a:hover,
+.breadcrumbs.green ol li a:hover,
+.breadcrumbs.orange ol li a:hover,
+.breadcrumbs.red ol li a:hover,
+.breadcrumbs.purple ol li a:hover,
+.breadcrumbs.lime ol li a:hover,
+.breadcrumbs.dragonfruit ol li a:hover,
+.breadcrumbs.cosmic ol li a:hover {
+	color: @breadcrumbs-colored-link-hover;
+}
+
+.breadcrumbs.blue ol {
+	background-color: @blue;
+}
+
+.breadcrumbs.green ol {
+	background-color: @green;
+}
+
+.breadcrumbs.orange ol {
+	background-color: @orange;
+}
+
+.breadcrumbs.red ol {
+	background-color: @red;
+}
+
+.breadcrumbs.purple ol {
+	background-color: @purple;
+}
+
+.breadcrumbs.lime ol {
+	background-color: @lime;
+}
+
+.breadcrumbs.dragonfruit ol {
+	background-color: @dragonfruit;
+}
+
+.breadcrumbs.cosmic ol {
+	background-color: @cosmic;
+	color: lighten(@breadcrumbs-default-color, 50%);
+}
+
+.breadcrumbs.cosmic ol li:after {
+	color: lighten(@breadcrumbs-colored-separator, 30%);
+}

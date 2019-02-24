@@ -1,0 +1,565 @@
+/* General */
+
+.clear {
+	clear: both;
+}
+
+.clearfix:after,
+.clear-fix:after,
+.container:after,
+.row:after,
+.col:after,
+form:after,
+form.tight .form-row:after,
+.btn-group:after,
+.modal header:after,
+.modal section:after,
+.modal footer:after,
+.paginate ul:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+// I hate IE8..
+form.form:not(.tight) .input-container:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.inline {
+	display: inline;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.float-left {
+	float: left !important;
+}
+
+.float-right {
+	float: right !important;
+}
+
+img.float-right {
+	display: block;
+	margin-right: 0;
+}
+
+img.float-left {
+	display: block;
+	margin-right: 0;
+}
+
+.no-margin {
+	margin: 0 !important;
+}
+
+.no-margin-top {
+	margin-top: 0 !important;
+}
+
+.no-margin-right {
+	margin-right: 0 !important;
+}
+
+.no-margin-bottom {
+	margin-bottom: 0 !important;
+}
+
+.no-margin-left {
+	margin-left: 0 !important;
+}
+
+@media only screen and (max-width: 768px) {
+	
+	.hidden-mobile {
+		display: none !important;
+	}
+	
+}
+
+@media only screen and (min-width: 769px) {
+
+	.hidden-desktop {
+		display: none !important;
+	}
+	
+}
+
+.round-corners {
+	.border-radius(2px) !important;
+}
+
+.shadow {
+	.box-shadow(~'', 0, 0, 2px, 0, rgba(0, 0, 0, .4)) !important;
+}
+
+.shadow-inset {
+	.box-shadow(inset, 0, 0, 2px, 0, rgba(0, 0, 0, .3)) !important;
+}
+
+.surround {
+	padding: 4px 10px;
+	border: 1px solid #c8c8c8;
+	.border-radius(2px);
+}
+
+.surround.dark {
+	background-color: #424242;
+	border: none;
+}
+
+.surround.dark h1,
+.surround.dark h2,
+.surround.dark h3,
+.surround.dark h4,
+.surround.dark h5,
+.surround.dark h6,
+.surround.dark p,
+.surround.dark div {
+	color: @white;
+}
+
+.surround.shadowed {
+	.box-shadow(inset, 0, 0, 2px, 0, rgba(0, 0, 0, .2));
+}
+
+.surround.dark.shadowed {
+	.box-shadow(inset, 0, 0, 5px, 0, rgba(0, 0, 0, 1));
+}
+
+.surround.spaced {
+	padding: 20px 30px;
+}
+
+.gutter-right {
+	margin-right: @right-gutter;
+}
+
+.gutter-left {
+	margin-left: @left-gutter;
+}
+
+@media only screen and (max-width: 768px) {
+
+	.push-0:not(.push-only-desktop) {margin-bottom: 0 !important}
+	
+	.push-5:not(.push-only-desktop) {margin-bottom: 5px !important}
+	
+	.push-10:not(.push-only-desktop) {margin-bottom: 10px !important}
+	
+	.push-15:not(.push-only-desktop) {margin-bottom: 15px !important}
+	
+	.push-20:not(.push-only-desktop) {margin-bottom: 20px !important}
+	
+	.push-30:not(.push-only-desktop) {margin-bottom: 30px !important}
+	
+	.push-40:not(.push-only-desktop) {margin-bottom: 40px !important}
+	
+	.push-50:not(.push-only-desktop) {margin-bottom: 50px !important}
+	
+	.push-60:not(.push-only-desktop) {margin-bottom: 60px !important}
+	
+	.push-70:not(.push-only-desktop) {margin-bottom: 70px !important}
+	
+	.push-80:not(.push-only-desktop) {margin-bottom: 80px !important}
+	
+	.push-90:not(.push-only-desktop) {margin-bottom: 90px !important}
+	
+	.push-100:not(.push-only-desktop) {margin-bottom: 100px !important}
+	
+	.push-150:not(.push-only-desktop) {margin-bottom: 150px !important}
+	
+	.push-200:not(.push-only-desktop) {margin-bottom: 200px !important}
+	
+	.push-300:not(.push-only-desktop) {margin-bottom: 300px !important}
+
+}
+
+@media only screen and (min-width: 769px) {
+	.push-0:not(.push-only-mobile) {margin-bottom: 0 !important}
+
+	.push-5:not(.push-only-mobile) {margin-bottom: 5px !important}
+	
+	.push-10:not(.push-only-mobile) {margin-bottom: 10px !important}
+	
+	.push-15:not(.push-only-mobile) {margin-bottom: 15px !important}
+	
+	.push-20:not(.push-only-mobile) {margin-bottom: 20px !important}
+	
+	.push-30:not(.push-only-mobile) {margin-bottom: 30px !important}
+	
+	.push-40:not(.push-only-mobile) {margin-bottom: 40px !important}
+	
+	.push-50:not(.push-only-mobile) {margin-bottom: 50px !important}
+	
+	.push-60:not(.push-only-mobile) {margin-bottom: 60px !important}
+	
+	.push-70:not(.push-only-mobile) {margin-bottom: 70px !important}
+	
+	.push-80:not(.push-only-mobile) {margin-bottom: 80px !important}
+	
+	.push-90:not(.push-only-mobile) {margin-bottom: 90px !important}
+	
+	.push-100:not(.push-only-mobile) {margin-bottom: 100px !important}
+	
+	.push-150:not(.push-only-mobile) {margin-bottom: 150px !important}
+	
+	.push-200:not(.push-only-mobile) {margin-bottom: 200px !important}
+	
+	.push-300:not(.push-only-mobile) {margin-bottom: 300px !important}
+}
+
+body .screen-readers {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+}
+
+body a.screen-readers.hide-til-focus:focus {
+	position: static;
+	margin: 0;
+	width: auto;
+	height: auto;
+	overflow: visible;
+	outline-color: @cosmic;
+}
+
+body a.screen-readers.fixed-nav:focus {
+	position: fixed;
+	top: 100px;
+	z-index: 9999;
+}
+
+/* Pagination */
+
+.paginate ul {
+	display: inline-block;
+	padding: 0;
+	list-style: none;
+}
+
+.paginate ul li {
+	float: left;
+	margin: 0 4px;
+}
+
+.paginate ul li:first-child {
+	margin-left: 0;
+}
+
+.paginate ul li:last-child {
+	margin-right: 0;
+}
+
+.paginate ul li a,
+.paginate.silver ul li a,
+.paginate.white ul li a {
+	display: inline-block;
+	padding: 4px;
+	width: 26px;
+	background-color: @pagination-background;
+	text-align: center;
+	color: @pagination-color;
+	.border-radius(2px);
+	.transition(all, .2s, ease-in-out);
+}
+
+.paginate ul li.current a {
+	color: @pagination-current-color;
+	background-color: @pagination-current-background;
+}
+
+.paginate.blue ul li a {
+	color: @blue;
+}
+
+.paginate.blue ul li.current a {
+	color: @white;
+	background-color: @blue;
+}
+
+.paginate.green ul li a {
+	color: @green;
+}
+
+.paginate.green ul li.current a {
+	color: @white;
+	background-color: @green;
+}
+
+.paginate.orange ul li a {
+	color: @orange;
+}
+
+.paginate.orange ul li.current a {
+	color: @white;
+	background-color: @orange;
+}
+
+.paginate.red ul li a {
+	color: @red;
+}
+
+.paginate.red ul li.current a {
+	color: @white;
+	background-color: @red;
+}
+
+.paginate.purple ul li a {
+	color: @purple;
+}
+
+.paginate.purple ul li.current a {
+	color: @white;
+	background-color: @purple;
+}
+
+.paginate.lime ul li a {
+	color: @lime;
+}
+
+.paginate.lime ul li.current a {
+	color: @white;
+	background-color: @lime;
+}
+
+.paginate.dragonfruit ul li a {
+	color: @dragonfruit;
+}
+
+.paginate.dragonfruit ul li.current a {
+	color: @white;
+	background-color: @dragonfruit;
+}
+
+.paginate.cosmic ul li a {
+	color: @cosmic;
+}
+
+.paginate.cosmic ul li.current a {
+	color: @white;
+	background-color: @cosmic;
+}
+
+.paginate.dark ul li a {
+	color: @pagination-dark-color;
+	background-color: @pagination-dark-background;
+}
+
+.paginate.dark ul li.current a {
+	color: @pagination-dark-current-color;
+	background-color: @pagination-dark-current-background;
+}
+
+@media only screen and (min-width: 769px) {
+	.paginate ul li a:hover {
+		color: @pagination-current-hover-color;
+		background-color: @pagination-current-hover-background;
+		.box-shadow(~'', 0, 0, 2px, 0, rgba(0, 0, 0, .15));
+	}
+	
+	.paginate.blue ul li a:hover {
+		background-color: @blue;
+	}
+	
+	.paginate.green ul li a:hover {
+		background-color: @green;
+	}
+	
+	.paginate.orange ul li a:hover {
+		background-color: @orange;
+	}
+	
+	.paginate.red ul li a:hover {
+		background-color: @red;
+	}
+	
+	.paginate.purple ul li a:hover {
+		background-color: @purple;
+	}
+	
+	.paginate.lime ul li a:hover {
+		background-color: @lime;
+	}
+	
+	.paginate.dragonfruit ul li a:hover {
+		background-color: @dragonfruit;
+	}
+	
+	.paginate.cosmic ul li a:hover {
+		background-color: @cosmic;
+	}
+	
+	.paginate.dark ul li a:hover {
+		color: @pagination-dark-hover-color;
+		background-color: @pagination-dark-hover-background;
+	}
+}
+
+/* Tables */
+
+.tbl {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.tbl tr th {
+	vertical-align: bottom;
+	padding: 20px 10px;
+	color: @black;
+}
+
+.tbl tr td {
+	vertical-align: top;
+	font-size: 90%;
+	padding: 10px;
+	color: @table-head-color;
+}
+
+.tbl.narrow tr th,
+.tbl.narrow tr td {
+	padding: 4px 10px;
+}
+
+.tbl.bordered tr th {
+	border-top: 1px solid @table-border-color;
+}
+
+.tbl.bordered tr th,
+.tbl.bordered tr td {
+	border-bottom: 1px solid @table-border-color;
+	border-left: 1px solid @table-border-color;
+}
+
+.tbl.bordered tr th:last-child,
+.tbl.bordered tr td:last-child {
+	border-right: 1px solid @table-border-color;
+}
+
+.tbl.alternate tr:nth-child(even) td {
+	color: @table-alternate-color;
+	background-color: @table-alternate-background;
+}
+
+.tbl.alternate tr th,
+.tbl.alternate tr td,
+.tbl.alternate tr td:last-child,
+.tbl.alternate tr th:last-child {
+	border: none;
+}
+
+.tbl.blue tr th {
+	color: @blue;
+}
+
+.tbl.alternate.blue tr:nth-child(odd) td {
+	color: @white;
+	background-color: @blue;
+}
+
+.tbl.green tr th {
+	color: @green;
+}
+
+.tbl.alternate.green tr:nth-child(odd) td {
+	color: @white;
+	background-color: @green;
+}
+
+.tbl.orange tr th {
+	color: @orange;
+}
+
+.tbl.alternate.orange tr:nth-child(odd) td {
+	color: @white;
+	background-color: @orange;
+}
+
+.tbl.red tr th {
+	color: @red;
+}
+
+.tbl.alternate.red tr:nth-child(odd) td {
+	color: @white;
+	background-color: @red;
+}
+
+.tbl.purple tr th {
+	color: @purple;
+}
+
+.tbl.alternate.purple tr:nth-child(odd) td {
+	color: @white;
+	background-color: @purple;
+}
+
+.tbl.lime tr th {
+	color: @lime;
+}
+
+.tbl.alternate.lime tr:nth-child(odd) td {
+	color: @white;
+	background-color: @lime;
+}
+
+.tbl.dragonfruit tr th {
+	color: @dragonfruit;
+}
+
+.tbl.alternate.dragonfruit tr:nth-child(odd) td {
+	color: @white;
+	background-color: @dragonfruit;
+}
+
+.tbl.cosmic tr th {
+	color: @cosmic;
+}
+
+.tbl.alternate.cosmic tr:nth-child(odd) td {
+	color: @white;
+	background-color: @cosmic;
+}
+
+.tbl.dark tr th {
+	color: @table-dark-head-color;
+	background-color: @table-dark-head-background;
+}
+
+.tbl.dark tr td {
+	color: @table-dark-color;
+	background-color: @table-dark-background;
+}
+
+.tbl.bordered.dark tr th,
+.tbl.bordered.dark tr td {
+	border-color: @table-dark-border-color;
+}
+
+.tbl.alternate.dark tr th {
+	color: @table-dark-head-color;
+	background-color: @table-dark-head-background;
+}
+
+.tbl.alternate.dark tr:nth-child(odd) td {
+	color: @table-dark-color;
+	background-color: @table-dark-alternate-background-odd;
+}
+
+.tbl.alternate.dark tr:nth-child(even) td {
+	color: @table-dark-color;
+	background-color: @table-dark-alternate-background-even;
+}

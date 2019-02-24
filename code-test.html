@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    
+    <!------------------------------------------------------------------------------------------------------>
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <meta name="author" content="kosakkun">
+        <meta name="description" content="">
+        <title>Endless Marathon</title>
+        
+        <!-- CSS -->
+        <link href="/spark/css/spark.min.css" rel="stylesheet">
+        <link href="/css/code.css" rel="stylesheet">
+        
+        <!-- JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="/spark/js/spark.min.js"></script>
+        <script>
+            $(function() {
+                $("#header").load("/html/header.html");
+                $("#footer").load("/html/footer.html");
+            });
+        </script>
+        
+        <!-- Create a simple CodeMirror instance -->
+        <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
+        <script src="/codemirror/lib/codemirror.js"></script>
+        <script src="/codemirror/mode/clike/clike.js"></script> 
+        <style>.CodeMirror {border: 1px solid #CCCCCC; height: 430px}</style>
+        
+    </head>
+    
+    <!------------------------------------------------------------------------------------------------------>
+    
+    <body>
+            
+        <div class="container">
+            
+            <!-- header -->
+            <div class="row">
+                <div class="col of-2"></div>
+                <div class="col of-8"><div id="header"></div></div>
+                <div class="col of-2"></div>
+            </div>
+            
+            <!-- main -->
+            <div class="row">
+                <div class="col of-2"></div>
+                <div class="col of-8">
+                    <h3>Code Test</h3>
+                    <br>
+                    <br>
+                    <form name="form" method="POST" action="/cgi-bin/code-test.py">
+                        <div class="row">
+                            <div class="col of-8">
+                                Source Code : <br>
+                                <textarea id="editor" class = "codearea" name="source_code"></textarea>
+                                <script>
+                                    CodeMirror.fromTextArea(document.getElementById("editor"), {
+                                        mode: "text/x-csrc",
+                                        lineNumbers: true,
+                                    });
+                                </script>
+                                <br>
+                                <div class="input-container buttons"><button type="submit" name="submit" class="btn blue">Run</button></div>
+                            </div>
+                            <div class="col of-4">
+                                Language : <br>
+                                <div class="input-container select">
+                                    <select name="lang-sel">
+                                        <optgroup label="Language">
+                                            <option value="cpp">C++</option>
+                                        </optgroup>
+                                    </select>
+                                </div><br>
+                                Standard Input : <br>
+                                <textarea class = "codearea" name="stdin" rows="4"></textarea><br><br>
+                                Standard Output : <br>
+                                <textarea class = "codearea" readonly name="stdout" rows="4" style="background-color:#F8F8F8"></textarea><br><br>
+                                Standard Error : <br>
+                                <textarea class = "codearea" readonly name="stderr" rows="4" style="background-color:#F8F8F8"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col of-2"></div>
+            </div>
+            
+            <!-- footer -->
+            <div class="row">
+                <div class="col of-2"></div>
+                <div class="col of-8"><div id="footer"></div></div>
+                <div class="col of-2"></div>
+            </div>
+        
+        </div>
+        
+    </body>
+    
+</html>

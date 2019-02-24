@@ -1,0 +1,354 @@
+/* Alerts */
+
+.alert {
+	position: relative;
+	padding: 10px 30px 10px 20px;
+	background-color: @alert-background;
+	color: @alert-color;
+}
+
+.alert + .alert {
+	border-top: 1px dashed @white;
+	border-top-color: rgba(255, 255, 255, .5);
+}
+
+.alert.blue {
+	color: @white;
+	background-color: @blue;
+}
+
+.alert.green,
+.alert.success {
+	color: @white;
+	background-color: @green;
+}
+
+.alert.orange,
+.alert.warning {
+	color: @white;
+	background-color: @orange;
+}
+
+.alert.red,
+.alert.error {
+	color: @white;
+	background-color: @red;
+}
+
+.alert.purple {
+	color: @white;
+	background-color: @purple;
+}
+
+.alert.lime {
+	color: @white;
+	background-color: @lime;
+}
+
+.alert.dragonfruit {
+	color: @white;
+	background-color: @dragonfruit;
+}
+
+.alert.cosmic {
+	color: @white;
+	background-color: @cosmic;
+}
+
+.alert:first-of-type {
+	border: none;
+}
+
+.alert:empty {
+	display: none;
+}
+
+.alert .close {
+	position: absolute;
+	top: 3px;
+	right: 7px;
+}
+
+
+
+/* Alert Close Button */
+
+.alert .close {
+	color: #d3d3d3;
+}
+
+.alert .close:hover {
+	color: darken(#d3d3d3, 40%);
+}
+
+.alert.blue .close,
+.alert.green .close,
+.alert.orange .close,
+.alert.red .close,
+.alert.purple .close,
+.alert.lime .close,
+.alert.dragonfruit .close, {
+	color: @white;
+}
+
+.alert.blue .close:hover,
+.alert.green .close:hover,
+.alert.orange .close:hover,
+.alert.red .close:hover,
+.alert.purple .close:hover,
+.alert.lime .close:hover,
+.alert.dragonfruit .close:hover, {
+	color: darken(@white, 66%);
+}
+
+
+
+/* Badges */
+
+.badge {
+	font-size: 12px;
+	padding: 4px 8px;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	border: 1px solid darken(#fefefe, 18%);
+	border: none;
+	font-weight: 400;
+	line-height: 1;
+	.linear-gradient(top, darken(#fefefe, 3%), darken(#fefefe, 10%), 100%, darken(#fefefe, 13%));
+	.border-radius(20px);
+}
+
+.badge:empty {
+	display: none;
+}
+
+.badge.blue {
+	color: @white;
+	.linear-gradient(top, @blue, darken(@blue, 20%), 100%, @blue);
+}
+
+.badge.green {
+	color: @white;
+	.linear-gradient(top, @green, darken(@green, 20%), 100%, @green);
+}
+
+.badge.orange {
+	color: @white;
+	.linear-gradient(top, @orange, darken(@orange, 20%), 100%, @orange);
+}
+
+.badge.red {
+	color: @white;
+	.linear-gradient(top, @red, darken(@red, 20%), 100%, @red);
+}
+
+.badge.purple {
+	color: @white;
+	.linear-gradient(top, @purple, darken(@purple, 20%), 100%, @purple);
+}
+
+.badge.lime {
+	color: @white;
+	.linear-gradient(top, @lime, darken(@lime, 20%), 100%, @lime);
+}
+
+.badge.dragonfruit {
+	color: @white;
+	.linear-gradient(top, @dragonfruit, darken(@dragonfruit, 20%), 100%, @dragonfruit);
+}
+
+.badge.dragonfruit {
+	color: @white;
+	.linear-gradient(top, @cosmic, darken(@cosmic, 20%), 100%, @cosmic);
+}
+
+.badge.flat {
+	background-image: none;
+}
+
+
+
+/* Tags */
+
+.tag {
+	display: inline-block;
+	margin: 0;
+	padding: 0 6px;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #494949;
+	background-color: @silver;
+	.border-radius(2px);
+}
+
+.tag a {
+	color: darken(@white, 10%);
+}
+
+.tag a:hover {
+	color: @white;
+}
+
+h1 + .tag,
+h2 + .tag,
+h3 + .tag,
+h4 + .tag,
+h5 + .tag,
+h6 + .tag {
+	vertical-align: super;
+}
+
+h1 .tag,
+h2 .tag,
+h3 .tag,
+h4 .tag,
+h5 .tag,
+h6 .tag {
+	vertical-align: middle;
+}
+
+.tag.black {
+	color: @white;
+	background-color: @black;
+}
+
+.tag.blue {
+	color: @white;
+	background-color: @blue;
+}
+
+.tag.green {
+	color: @white;
+	background-color: @green;
+}
+
+.tag.orange {
+	color: @white;
+	background-color: @orange;
+}
+
+.tag.red {
+	color: @white;
+	background-color: @red;
+}
+
+.tag.purple {
+	color: @white;
+	background-color: @purple;
+}
+
+.tag.lime {
+	color: @white;
+	background-color: @lime;
+}
+
+.tag.dragonfruit {
+	color: @white;
+	background-color: @dragonfruit;
+}
+
+.tag.cosmic {
+	color: @white;
+	background-color: @cosmic;
+}
+
+
+
+/* Notification */
+
+.notifications {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	max-width: 100%;
+	padding: 0 10px 10px 10px;
+	list-style: none;
+	z-index: 4000;
+}
+
+.notifications > a {
+	color: @black;
+}
+
+.notifications .notification {
+	display: block;
+	overflow: hidden;
+	margin: 14px 0 0 0;
+	padding: 10px;
+	height: 90px;
+	width: 100%;
+	max-width: 340px;
+	opacity: 0;
+	background-color: @notification-background;
+	color: @notification-color;
+	font-size: 80%;
+	text-align: justify;
+	.box-shadow(~'', 0, 0, 1px, 0, rgba(0, 0, 0, .5));
+	.border-radius(2px);
+	.transition(all, .8s, ease-out);
+}
+
+.notifications .notification.show {
+	opacity: 1;
+}
+
+.notifications .notification a.close {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	font-size: 200%;
+	line-height: 1;
+	color: #cdcdcd;
+}
+
+.notifications .notification a.close:hover {
+	color: @red;
+}
+
+.notifications .notification .thumb {
+	float: left;
+	margin: 4px 20px 0 10px;
+	height: 100%;
+}
+
+.notifications .notification .thumb img {
+	display: block;
+	width: 42px;
+	height: 42px;
+	.border-radius(100px);
+}
+
+.notifications .notification .title {
+	font-weight: 700;
+	margin-bottom: 6px;
+}
+
+
+
+/* Dark Notification */
+
+.notifications .notification.dark {
+	background-color: #404040;
+	color: @white;
+}
+
+@media only screen and (min-width: 769px) {
+	
+	.notifications {
+		left: 20px;
+		bottom: 20px;
+		max-width: 400px;
+	}
+	
+	.notifications .notification {
+		width: 400px;
+		max-width: 400px;
+	}
+	
+	.notifications .notification a.close {
+		font-size: inherit;
+	}
+}

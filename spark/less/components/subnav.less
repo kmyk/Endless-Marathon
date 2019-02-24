@@ -1,0 +1,155 @@
+.link-list,
+.link-list.white,
+.link-list.silver {
+	padding: 16px;
+	list-style: none;
+	.border-radius(2px);
+	background-color: transparent;
+}
+
+.link-list.dark {
+	background-color: @link-list-dark-background;
+}
+
+.link-list li.heading,
+.link-list.white li.heading,
+.link-list.silver li.heading {
+	color: @link-list-heading-color;
+	font-weight: 600;
+	margin: 10px 0;
+}
+
+.link-list.dark li.heading {
+	color: @link-list-heading-color;
+}
+
+.link-list li.heading:first-child {
+	margin-top: 0;
+}
+
+.link-list li.divider,
+.link-list.white li.divider,
+.link-list.silver li.divider {
+	display: block;
+	height: 0px;
+	border-bottom: 1px solid @link-list-border-bottom-color;
+	margin: 10px 0;
+}
+
+.link-list.dark li.divider {
+	border-top: 1px solid @link-list-dark-border-top-color;
+	border-bottom: 1px solid @link-list-dark-border-bottom-color;
+}
+
+.link-list li a,
+.link-list.white li a,
+.link-list.silver li a {
+	color: @link-list-color;
+	.border-radius(2px);
+}
+
+.link-list li.active a,
+.link-list.white li.active a,
+.link-list.silver li.active a {
+	padding: 2px 4px;
+	background-color: @link-list-active-background;
+	color: @link-list-active-color;
+}
+
+.link-list li a,
+.link-list.white li a,
+.link-list.silver li a {
+	color: @link-list-color;
+}
+
+.link-list.dark li a {
+	color: @link-list-dark-color;
+}
+
+.link-list.dark li.active a {
+	background-color: @link-list-dark-active-background;
+	color: @link-list-dark-active-color;
+}
+
+.link-list li a:hover,
+.link-list li a:focus {
+	outline: none;
+	color: @link-list-hover-color;
+}
+
+.link-list.blue li a {
+	color: @blue;
+}
+
+.link-list.blue li a:hover,
+.link-list.blue li a:focus {
+	color: darken(@blue, 20%);
+}
+
+.link-list.green li a {
+	color: @green;
+}
+
+.link-list.green li a:hover,
+.link-list.green li a:focus {
+	color: darken(@green, 20%);
+}
+
+.link-list.orange li a {
+	color: @orange;
+}
+
+.link-list.orange li a:hover,
+.link-list.orange li a:focus {
+	color: darken(@orange, 20%);
+}
+
+.link-list.red li a {
+	color: @red;
+}
+
+.link-list.red li a:hover,
+.link-list.red li a:focus {
+	color: darken(@red, 20%);
+}
+
+.link-list.purple li a {
+	color: @purple;
+}
+
+.link-list.purple li a:hover,
+.link-list.purple li a:focus {
+	color: darken(@purple, 20%);
+}
+
+.link-list.lime li a {
+	color: @lime;
+}
+
+.link-list.lime li a:hover,
+.link-list.lime li a:focus {
+	color: darken(@lime, 20%);
+}
+
+.link-list.dragonfruit li a {
+	color: @dragonfruit;
+}
+
+.link-list.dragonfruit li a:hover,
+.link-list.dragonfruit li a:focus {
+	color: darken(@dragonfruit, 20%);
+}
+
+// Cosmic needs a bit of tweaking since it's quite dark
+.link-list.cosmic li a {
+	color: lighten(@cosmic, 10%);
+}
+
+.link-list.cosmic li.active a {
+	color: lighten(@cosmic, 20%);
+}
+
+.link-list.cosmic li a:hover,
+.link-list.cosmic li a:focus {
+	color: lighten(@cosmic, 30%);
+}

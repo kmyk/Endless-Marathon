@@ -1,0 +1,198 @@
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	margin: auto;
+	width: 100%;
+	max-height: 100%;
+	z-index: 9000;
+	opacity: 0;
+	background-color: transparent;
+	.transition(all, .4s, ease-in-out);
+	.box-shadow(~'', 0, 0, 2px, 0, rgba(0, 0, 0, .25));
+}
+
+.modal.show {
+	top: 80px;
+	opacity: 1;
+}
+
+.modal header {
+	padding: 20px;
+	text-align: center;
+	background-color: @modal-header-background;
+}
+
+.modal header h1,
+.modal header h2,
+.modal header h3,
+.modal header h4,
+.modal header h5,
+.modal header h6 {
+	color: @white;
+	margin: 0;
+}
+
+.modal section {
+	padding: 16px;
+	color: @modal-color;
+	background-color: @modal-body-background;
+}
+
+.modal section p {
+	color: @modal-color;
+}
+
+.modal footer {
+	padding: 16px;
+	font-size: 80%;
+	color: @modal-footer-color;
+	border-top: 1px solid @modal-footer-top-border-color;
+	background-color: @modal-footer-background;
+}
+
+.modal footer a {
+	color: @modal-footer-link-color;
+}
+
+.modal footer a:hover {
+	color: @modal-footer-link-hover-color;
+}
+
+
+.modal.static {
+	position: relative;
+	display: block;
+	width: 100%;
+	z-index: inherit;
+	opacity: 1;
+	.box-shadow(~'', 0, 0, 2px, 0, rgba(0, 0, 0, .25));
+	.border-radius(2px);
+}
+
+.modal.static header {
+	.border-radius-corners(2px, 2px, 0, 0);
+}
+
+.modal.flat {
+	.box-shadow-none();
+}
+
+.modal.flat section {
+	background-color: @modal-flat-background;
+}
+
+.modal.flat footer {
+	background-color: @modal-flat-footer-background;
+}
+
+
+
+/* Colors */
+
+
+
+.modal.dark header,
+.modal.dark footer {
+	background-color: @modal-dark-header-background;
+	border: none;
+	color: @white;
+}
+
+.modal.dark section {
+	color: @modal-dark-color;
+	background-color: @modal-dark-body-background;
+}
+
+.modal.dark section p {
+	color: @modal-dark-color;
+}
+
+.modal.dark footer a {
+	color: @white;
+	font-weight: 600;
+}
+
+.modal.dark footer a:hover {
+	color: darken(@white, 20%);
+	font-weight: 600;
+}
+
+.modal.blue header {
+	background-color: @blue;
+}
+
+.modal.green header {
+	background-color: @green;
+}
+
+.modal.orange header {
+	background-color: @orange;
+}
+
+.modal.red header {
+	background-color: @red;
+}
+
+.modal.purple header {
+	background-color: @purple;
+}
+
+.modal.lime header {
+	background-color: @lime;
+}
+
+.modal.dragonfruit header {
+	background-color: @dragonfruit;
+}
+
+.modal.cosmic header {
+	background-color: @cosmic;
+}
+
+
+
+/* Blackout Curtain */
+
+#blackout {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 8000;
+	opacity: 0;
+	background-color: black;
+	background-color: rgba(0, 0, 0, .8);
+	.transition(all, .4s, ease-in-out);
+}
+
+#blackout.show {
+	opacity: 1;
+}
+
+@media only screen and (min-width: 769px) {
+	
+	.modal {
+		width: 50%;
+		.border-radius(2px);
+	}
+	
+	.modal header {
+		padding: 16px 10px;
+		.border-radius-corners(2px, 2px, 0, 0);
+	}
+	
+	.modal section {
+		padding: 20px;
+	}
+	
+	// Round the bottom corners of the last item
+	.modal section:last-child,
+	.modal footer:last-child {
+		.border-radius-corners(0, 0, 2px, 2px);
+	}
+}

@@ -1,0 +1,33 @@
+.alert.warning-light:before {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	font-family: "FontAwesome";
+	color: @white;
+	content: '\f071';
+}
+
+.alert.warning-dark:before {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	font-family: "FontAwesome";
+	color: @darkgray;
+	content: '\f071';
+}
+
+@media only screen and (min-width: 769px) {
+	
+	nav.bar li.drop > a:after {
+		color: #858585;
+		display: inline-block;
+		margin-left: 10px;
+		font-family: "FontAwesome";
+		content: "\f0d7";
+		line-height: 1em;
+	}
+		
+	nav.bar li.drop:hover > a:after {
+		content: "\f0d8";
+	}
+}

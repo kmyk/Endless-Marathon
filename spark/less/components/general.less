@@ -1,0 +1,39 @@
+@-ms-viewport {
+	width: device-width;
+}
+
+@viewport {
+	width: device-width;
+}
+
+* {
+	-webkit-font-smoothing: antialiased;
+	.box-sizing(border-box);
+}
+
+html {
+	position: relative;
+	min-height: 100%;
+	color: @copy-color;
+}
+
+body {
+	height: 100%;
+}
+
+hr {
+	clear: both;
+	height: 1px;
+	background-color: #e1e1e1;
+	border: none;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	-ms-interpolation-mode: bicubic; // IE8 Fix for responsive images
+}
+
+ul {
+	margin: 0;
+}
