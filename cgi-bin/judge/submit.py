@@ -5,10 +5,36 @@ form = cgi.FieldStorage()
 
 lang = form["lang-sel"].value
 prob = form["prob-sel"].value
+user = ""
 code = ""
 
+##################################
+if "userid" in form:
+    user = form["userid"].value
+else:
+    print("Content-Type: text/html\n")
+    print('''
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="author" content="kosakkun">
+            <meta name="description" content="">
+            <title>Endless Marathon</title>
+        </head>
+        <body>
+            Failed! UsedID is empty : <a href="/submit.html">Submit</a>
+        </body>
+    </html>
+    ''')
+    exit(0)
+
+####################################
 if "source_code" in form:
-    code = form["source_code"]
+    code = form["source_code"].value
+    file = open("./problem/a.cpp", 'w')
+    file.write(code)
+    file.close()
 else:
     print("Content-Type: text/html\n")
     print('''
@@ -28,6 +54,37 @@ else:
     exit(0)
 
 
+# complie
+#####################################################################################
+import subprocess
+
+if lang == "cpp":
+    try:
+        cmd = "g++ ./problem/a.cpp -std=c++11 -o ./problem/a.out"
+        ret = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+    except subprocess.CalledProcessError as e:   
+        print("Content-Type: text/html\n")
+        print('''
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="author" content="kosakkun">
+                <meta name="description" content="">
+                <title>Endless Marathon</title>
+            </head>
+            <body>
+                Failed! Compile Error : <a href="/submit.html">Submit</a><br> ''' + str(e.output) + '''
+            </body>
+        </html>
+        ''')
+        exit(0)
+
+        
+# execute
+#####################################################################################
+
+        
 # insert submission
 #####################################################################################
 import pymysql.cursors
@@ -39,6 +96,9 @@ connection = pymysql.connect(
     db          = "submit",
     charset     = "utf8",
     cursorclass = pymysql.cursors.DictCursor)
+
+# user id
+UserID = user
 
 # submit id
 CodeID = ""
