@@ -60,15 +60,19 @@ print('''
                 <div class="col of-8">
                     <h3>Submissions</h3>
                     <br>
-                    <table class="tbl bordered center">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>time</th>
-                                <th>language</th>
-                            </tr>
-                        </head>
-                        <tbody>''')
+                    <form name="form" method="GET" action="/cgi-bin/show-code.py">
+                        <table class="tbl bordered center narrow">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Problem</th>
+                                    <th>UserID</th>
+                                    <th>time</th>
+                                    <th>language</th>
+                                    <th>Code</th>
+                                </tr>
+                            </head>
+                            <tbody>''')
             
 # show table
 #####################################################################################
@@ -83,21 +87,25 @@ connection = pymysql.connect(
     cursorclass = pymysql.cursors.DictCursor)
 
 with connection.cursor() as cursor:   
-    sql = "select * from code3";
+    sql = "select * from code4";
     cursor.execute(sql)
     results = cursor.fetchall()
     for r in results:
         print("<tr>")
         print("<td>" + str(r["CodeID"]) + "</td>")
+        print("<td>" + str(r["Problem"]) + "</td>")
+        print("<td>" + str(r["UserID"]) + "</td>")
         print("<td>" + str(r["SubmitDate"]) + "</td>")
         print("<td>" + str(r["Language"]) + "</td>")
+        print("<td><button type='submit' name='codeid' value=" + str(r["CodeID"]) + ">code</button></td>")
         print("</tr>")
-        
+              
 connection.close()
 
 #####################################################################################
-print('''               </tbody>
-                    </table>
+print('''                   </tbody>
+                        </table>
+                    </form>
                 </div>
                 <div class="col of-2"></div>
             </div>

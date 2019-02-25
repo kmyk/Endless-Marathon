@@ -97,18 +97,30 @@ connection = pymysql.connect(
     charset     = "utf8",
     cursorclass = pymysql.cursors.DictCursor)
 
-# user id
-UserID = user
+#CREATE TABLE code4 (
+#    CodeID int PRIMARY KEY,
+#    UserID varchar(50) NOT NULL, 
+#    Problem varchar(200) NOT NULL,
+#    SubmitDate datetime NOT NULL,
+#    Language varchar(50) NOT NULL,
+#    CodeData text(1000000) NOT NULL
+#);
 
 # submit id
 CodeID = ""
 with connection.cursor() as cursor:   
-    sql = "select count(CodeID) from code3";
+    sql = "select count(CodeID) from code4";
     cursor.execute(sql)
     results = cursor.fetchall()
     CodeID = int(results[0]["count(CodeID)"]) + 1
     print(CodeID)
 
+# user id
+UserID = user
+    
+# problem
+Problem = prob
+    
 # submit date
 import time    
 SubmitDate = time.strftime('%Y-%m-%d %H:%M:%S')
@@ -118,8 +130,8 @@ Language = lang
 
 # insert submission
 with connection.cursor() as cursor:
-    sql = "INSERT INTO code3 (CodeID, SubmitDate, Language) VALUES (%s, %s, %s)"
-    r = cursor.execute(sql, (CodeID, SubmitDate, Language))
+    sql = "INSERT INTO code4 (CodeID, UserID, Problem, SubmitDate, Language, CodeData) VALUES (%s, %s, %s, %s, %s, %s)"
+    r = cursor.execute(sql, (CodeID, UserID, Problem, SubmitDate, Language, code))
     connection.commit()
 
 connection.close()
