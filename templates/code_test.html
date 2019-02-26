@@ -8,7 +8,7 @@
         <div class="col of-8">
             Source Code : <br>
             <style>.CodeMirror {border: 1px solid #CCCCCC; height: 425px}</style>
-            <textarea id="editor" name="source_code"></textarea>
+            <textarea id="editor" name="code">{{ code }}</textarea>
             <script>
                 CodeMirror.fromTextArea(document.getElementById("editor"), {
                     mode: "text/x-csrc",
@@ -28,11 +28,11 @@
                 </select>
             </div><br>
             Standard Input : <br>
-            <textarea style="width:100%;" name="stdin" rows="4"></textarea><br><br>
+            <textarea style="width:100%;" name="stdin" rows="4">{{ stdin }}</textarea><br><br>
             Standard Output : <br>
-            <textarea style="width:100%;" readonly name="stdout" rows="4" style="background-color:#F8F8F8"></textarea><br><br>
+            <textarea style="width:100%;" readonly rows="4" style="background-color:#F8F8F8">{{ stdout }}</textarea><br><br>
             Standard Error : <br>
-            <textarea style="width:100%;" readonly name="stderr" rows="4" style="background-color:#F8F8F8"></textarea>
+            <textarea style="width:100%;" readonly rows="4" style="background-color:#F8F8F8">{{ stderr }}</textarea>
         </div>
     </div>
 </form>

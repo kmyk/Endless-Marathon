@@ -5,3 +5,5 @@ sample*
 *.txt
 __pycache__
 *.pyc
+execute
+
