@@ -169,12 +169,12 @@ def show_code():
 
         result = ""
         with connection.cursor() as cursor:   
-            sql = "select code from submissions where code_id=%s";
+            sql = "select * from submissions where code_id=%s";
             cursor.execute(sql, (request.form["code_id"]))
-            result = cursor.fetchall()[0]["code"]
+            result = cursor.fetchall()[0]
         connection.close()
 
-        return render_template("show_code.html", code=result)
+        return render_template("show_code.html", code=result["code"], submit=result)
 
 ##################################################################################################################
 if __name__ == "__main__":

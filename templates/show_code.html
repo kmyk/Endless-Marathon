@@ -1,6 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
-<h4 class="underlined">Code</h4>
+<h3 class="underlined">Code</h4>
+<br>
+<table class="tbl bordered center narrow">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Problem</th>
+            <th>UserID</th>
+            <th>time</th>
+            <th>language</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ submit.code_id }}</td>
+            <td>{{ submit.problem_id }}</td>
+            <td>{{ submit.user_id }}</td>
+            <td>{{ submit.time_stamp }}</td>
+            <td>{{ submit.language }}</td>
+        </tr>
+    </tbody>
+</table>
 <br>
 <style>.CodeMirror {border: 1px solid #CCCCCC; height: 425px}</style>
 <textarea id="editor" readonly name="source_code">{{ code }}</textarea>

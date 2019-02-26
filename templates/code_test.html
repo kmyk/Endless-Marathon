@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3>Code Test</h3>
+<h3 class="underlined">Code Test</h3>
 <br>
 <br>
 <form name="form" method="POST" action="/code_test">
     <div class="row">
         <div class="col of-8">
             Source Code : <br>
-            <style>.CodeMirror {border: 1px solid #CCCCCC; height: 425px}</style>
+            <style>.CodeMirror {border: 1px solid #CCCCCC; height: 430px}</style>
             <textarea id="editor" name="code">{{ code }}</textarea>
             <script>
                 CodeMirror.fromTextArea(document.getElementById("editor"), {
