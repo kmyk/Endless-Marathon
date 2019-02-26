@@ -128,8 +128,30 @@ def submit():
 ##################################################################################################################
 @app.route("/submissions", methods=["GET", "POST"])
 def submissions():
-    return render_template("submissions.html")
+    if request.method == "GET":
+        return render_template("submissions.html")
+    else:
+        user = request.form["userid"]
+        if user == "":
+            return render_template("submissions.html", error="UsedID is empty")
 
+        connection = pymysql.connect(
+            host        = "localhost",
+            user        = "root",
+            password    = "",
+            db          = "endless_marathon",
+            charset     = "utf8",
+            cursorclass = pymysql.cursors.DictCursor)
+        
+        results = ""
+        with connection.cursor() as cursor:   
+            sql = "select * from submissions";
+            cursor.execute(sql)
+            results = cursor.fetchall()
+        connection.close()
+
+        return render_template("submissions.html", submits=results)
+        
 ##################################################################################################################
 if __name__ == "__main__":
 	app.run(host="localhost", port=5000)

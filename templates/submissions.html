@@ -2,9 +2,43 @@
 {% block content %}
 <h3>Submissions</h3>
 <form name="form" method="POST" action="/submissions">
+    UserID : <br>
+    <div class="input-container">
+        <input type="text" name="userid" placeholder="username">
+    </div>
     <div class="input-container buttons">
         <button type="submit" name="submit" class="btn blue">Go</button>
     </div>
 </form>
+<form name="form" method="GET" action="/submissions">
+    <table class="tbl bordered center narrow">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Problem</th>
+                <th>UserID</th>
+                <th>time</th>
+                <th>language</th>
+                <th>code</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for submit in submits %}
+            <tr>
+                <td>{{ submit.code_id }}</td>
+                <td>{{ submit.problem_id }}</td>
+                <td>{{ submit.user_id }}</td>
+                <td>{{ submit.time_stamp }}</td>
+                <td>{{ submit.language }}</td>
+                <td><button type='submit' name='codeid' value={{ submit.code_id }}>code</button></td>
+            </tr>
+            {% else %}
+                <td>no data</td>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+
+<font color="red">{{ error }}</font>
 {% endblock %}
                 
