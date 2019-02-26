@@ -8,6 +8,7 @@ app = Flask(__name__)
 def index():
 	return render_template("index.html")
 
+##################################################################################################################
 @app.route("/code_test", methods=["GET", "POST"])
 def code_test():
     if request.method == "GET":
@@ -34,6 +35,17 @@ def code_test():
         
         return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr)
 
+##################################################################################################################
+@app.route("/submit", methods=["GET", "POST"])
+def submit():
+    return render_template("submit.html")
+
+##################################################################################################################
+@app.route("/submissions", methods=["GET", "POST"])
+def submissions():
+    return render_template("submissions.html")
+
+##################################################################################################################
 if __name__ == "__main__":
 	app.run(host="localhost", port=5000)
 

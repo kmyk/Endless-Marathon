@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+<h4 class="underlined">Submit Code</h4>
+<br>
+<form name="form" method="POST" action="/submit">
+    <div class="row">
+        <div class="col of-8">
+            Source Code : <br>
+            <style>.CodeMirror {border: 1px solid #CCCCCC; height: 425px}</style>
+            <textarea id="editor" name="source_code"></textarea>
+            <script>
+                CodeMirror.fromTextArea(document.getElementById("editor"), {
+                    mode: "text/x-csrc",
+                    lineNumbers: true,
+                });
+            </script>
+            <br>
+        </div>
+        <div class="col of-4">
+            UserID : <br>
+            <div class="input-container">
+                <input type="text" name="userid" placeholder="username">
+            </div>
+            <br>
+            Problem : <br>
+            <div class="input-container select">
+                <select name="prob-sel">
+                    <optgroup label="Problem">
+                        <option value="traveling-salesman">Traveling Salesman</option>
+                    </optgroup>
+                </select>
+            </div><br>
+            Language : <br>
+            <div class="input-container select">
+                <select name="lang-sel">
+                    <optgroup label="Language">
+                        <option value="cpp">C++</option>
+                    </optgroup>
+                </select>
+            </div><br>
+            <div class="input-container buttons"><button type="submit" name="submit" class="btn blue">Submit</button></div>
+        </div>
+    </div>
+</form>
+{% endblock %}
