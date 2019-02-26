@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3>Code Test</h3>
+<br>
+<br>
+<form name="form" method="POST" action="/code_test">
+    <div class="row">
+        <div class="col of-8">
+            Source Code : <br>
+            <style>.CodeMirror {border: 1px solid #CCCCCC; height: 425px}</style>
+            <textarea id="editor" name="source_code"></textarea>
+            <script>
+                CodeMirror.fromTextArea(document.getElementById("editor"), {
+                    mode: "text/x-csrc",
+                    lineNumbers: true,
+                });
+            </script>
+            <br>
+            <div class="input-container buttons"><button type="submit" name="submit" class="btn blue">Run</button></div>
+        </div>
+        <div class="col of-4">
+            Language : <br>
+            <div class="input-container select">
+                <select name="lang-sel">
+                    <optgroup label="Language">
+                        <option value="cpp">C++</option>
+                    </optgroup>
+                </select>
+            </div><br>
+            Standard Input : <br>
+            <textarea style="width:100%;" name="stdin" rows="4"></textarea><br><br>
+            Standard Output : <br>
+            <textarea style="width:100%;" readonly name="stdout" rows="4" style="background-color:#F8F8F8"></textarea><br><br>
+            Standard Error : <br>
+            <textarea style="width:100%;" readonly name="stderr" rows="4" style="background-color:#F8F8F8"></textarea>
+        </div>
+    </div>
+</form>
+{% endblock %}
