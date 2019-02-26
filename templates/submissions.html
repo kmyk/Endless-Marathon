@@ -10,7 +10,7 @@
         <button type="submit" name="submit" class="btn blue">Go</button>
     </div>
 </form>
-<form name="form" method="GET" action="/submissions">
+<form name="form" method="POST" action="/show_code">
     <table class="tbl bordered center narrow">
         <thead>
             <tr>
@@ -30,7 +30,7 @@
                 <td>{{ submit.user_id }}</td>
                 <td>{{ submit.time_stamp }}</td>
                 <td>{{ submit.language }}</td>
-                <td><button type='submit' name='codeid' value={{ submit.code_id }}>code</button></td>
+                <td><button type='submit' name='code_id' value='{{ submit.code_id }}'>code</button></td>
             </tr>
             {% else %}
                 <td>no data</td>

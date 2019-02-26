@@ -145,13 +145,37 @@ def submissions():
         
         results = ""
         with connection.cursor() as cursor:   
-            sql = "select * from submissions";
-            cursor.execute(sql)
+            sql = "select * from submissions where user_id=%s";
+            cursor.execute(sql, (user))
             results = cursor.fetchall()
         connection.close()
 
         return render_template("submissions.html", submits=results)
-        
+    
+    
+##################################################################################################################
+@app.route("/show_code", methods=["GET", "POST"])
+def show_code():
+    if request.method == "GET":
+        return render_template("submissions.html")
+    else:
+        connection = pymysql.connect(
+            host        = "localhost",
+            user        = "root",
+            password    = "",
+            db          = "endless_marathon",
+            charset     = "utf8",
+            cursorclass = pymysql.cursors.DictCursor)
+
+        result = ""
+        with connection.cursor() as cursor:   
+            sql = "select code from submissions where code_id=%s";
+            cursor.execute(sql, (request.form["code_id"]))
+            result = cursor.fetchall()[0]["code"]
+        connection.close()
+
+        return render_template("show_code.html", code=result)
+
 ##################################################################################################################
 if __name__ == "__main__":
 	app.run(host="localhost", port=5000)

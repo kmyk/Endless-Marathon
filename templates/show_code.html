@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<h4 class="underlined">Code</h4>
+<br>
+<style>.CodeMirror {border: 1px solid #CCCCCC; height: 425px}</style>
+<textarea id="editor" readonly name="source_code">{{ code }}</textarea>
+<script>
+    CodeMirror.fromTextArea(document.getElementById("editor"), {
+        mode: "text/x-csrc",
+        lineNumbers: true,
+    });
+</script>
+{% endblock %}
+                
