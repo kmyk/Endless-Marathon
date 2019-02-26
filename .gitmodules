@@ -4,3 +4,9 @@
 [submodule "CodeMirror"]
 	path = CodeMirror
 	url = https://github.com/codemirror/CodeMirror.git
+[submodule "static/CodeMirror"]
+	path = static/CodeMirror
+	url = https://github.com/codemirror/CodeMirror.git
+[submodule "static/spark"]
+	path = static/spark
+	url = https://github.com/twistedpixel/spark.git
