@@ -1,15 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3>Submissions</h3>
-<form name="form" method="POST" action="/submissions">
-    UserID : <br>
+<h3 class="underlined">Submissions</h3>
+<br>
+<form name="form" method="POST" action="/submissions" class="form inline">
     <div class="input-container">
+        <label for="form-text-inline" class="screen-readers">Text</label>
         <input type="text" name="userid" placeholder="username">
     </div>
     <div class="input-container buttons">
-        <button type="submit" name="submit" class="btn blue">Go</button>
+        <button type="submit" class="btn fill blue">Search</button>
     </div>
+    <font color="red">{{ error }}</font>
 </form>
+<br>
 <form name="form" method="POST" action="/show_code">
     <table class="tbl bordered center narrow">
         <thead>
@@ -33,12 +36,10 @@
                 <td><button type='submit' name='code_id' value='{{ submit.code_id }}'>code</button></td>
             </tr>
             {% else %}
-                <td>no data</td>
+            
             {% endfor %}
         </tbody>
     </table>
 </form>
-
-<font color="red">{{ error }}</font>
 {% endblock %}
                 
