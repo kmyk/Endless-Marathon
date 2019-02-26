@@ -1,0 +1,6 @@
+[submodule "spark"]
+	path = spark
+	url = https://github.com/twistedpixel/spark.git
+[submodule "CodeMirror"]
+	path = CodeMirror
+	url = https://github.com/codemirror/CodeMirror.git
