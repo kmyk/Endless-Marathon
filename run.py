@@ -176,6 +176,12 @@ def show_code():
 
         line_count = result["code"].count(os.linesep) + 2
         return render_template("show_code.html", code=result["code"], submit=result, line=line_count)
+    
+# problems
+##################################################################################################################
+@app.route("/problems/traveling_salesman")
+def traveling_salesman():
+    return render_template("problems/traveling_salesman.html")
 
 ##################################################################################################################
 if __name__ == "__main__":
