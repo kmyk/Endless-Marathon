@@ -50,9 +50,9 @@ def submit():
         code = request.form["source_code"] 
             
         if user == "":
-            return render_template("submit.html", error="UserID is empty!")
+            return render_template("submit.html", error="UserID is empty!", code=code)
         if code == "":
-            return render_template("submit.html", error="Source Code is empty!")
+            return render_template("submit.html", error="Source Code is empty!", user=user)
         
         if lang == "cpp":
             try:
@@ -63,7 +63,7 @@ def submit():
                 cmd = "g++ execute/a.cpp -std=c++11 -o execute/a.out"
                 ret = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
             except subprocess.CalledProcessError as e:   
-                return render_template("submit.html", error="Compile Error! " + str(e.output))
+                return render_template("submit.html", error="Compile Error!\n" + str(e.output.decode('utf-8')), code=code, user=user)
   
         code_length = 0
         time_stamp = time.strftime('%Y-%m-%d %H:%M:%S')

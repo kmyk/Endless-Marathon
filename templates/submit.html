@@ -6,8 +6,8 @@
     <div class="row">
         <div class="col of-8">
             Source Code : <br>
-            <style>.CodeMirror {border: 1px solid #CCCCCC; height: 425px}</style>
-            <textarea id="editor" name="source_code"></textarea>
+            <style>.CodeMirror {border: 1px solid #CCCCCC; height: 435px}</style>
+            <textarea id="editor" name="source_code">{{ code }}</textarea>
             <script>
                 CodeMirror.fromTextArea(document.getElementById("editor"), {
                     mode: "text/x-csrc",
@@ -19,7 +19,7 @@
         <div class="col of-4">
             UserID : <br>
             <div class="input-container">
-                <input type="text" name="userid" placeholder="username">
+                <input type="text" name="userid" placeholder="username" value="{{ user }}">
             </div>
             <br>
             Problem : <br>
@@ -39,8 +39,10 @@
                 </select>
             </div><br>
             <div class="input-container buttons"><button type="submit" name="submit" class="btn blue">Submit</button></div>
+            <br>
+            Message :
+            <textarea readonly rows="9" style="width:100%;background-color:#F8F8F8;color:#FF0000">{{ error }}</textarea>
         </div>
     </div>
 </form>
-<font color="red">{{ error }}</font>
 {% endblock %}
