@@ -2,12 +2,61 @@
 {% block content %}
 <h3 class="underlined">Traveling Salesman</h3>
 <br>
-\[
-  \frac{\pi}{2} =
-  \left( \int_{0}^{\infty} \frac{\sin x}{\sqrt{x}} dx \right)^2 =
-  \sum_{k=0}^{\infty} \frac{(2k)!}{2^{2k}(k!)^2} \frac{1}{2k+1} =
-  \prod_{k=1}^{\infty} \frac{4k^2}{4k^2 - 1}
-\]
+
+<h4 class="underlined">問題文</h4>
+巡回セールスマン問題です．座標が重複しない0 ~ N - 1までのN個の頂点の座標xi, yiが与えられるので，訪れる順に頂点番号を出力してください．
+<br>
+<br>
+
+<h5>制約</h5>
+・\( 50 \leq N \leq 1000 \)<br>
+・\( 0 \leq x_{i},y_{i} \leq 1000 \)<br>
+・If \( i \neq j, (x_{i},y_{i}) \neq (x_{j},y_{j}) \)
+<br>
+<br>
+
+<h5>入力</h5>
+```
+N
+x0 y0
+x1 x1
+.
+.
+xN-1 yN-1
+```
+<br>
+<br>
+
+<h5>出力</h5>
+```
+v0
+v1
+.
+.
+vN-1
+```
+<br>
+<br>
+
+<h4 class="underlined">スコア</h4>
+v0 → v1 → ... → vN-1 → V0 と頂点を訪れた時の移動距離をスコアとする．
+<br>
+<br>
+
+<h4 class="underlined">テスタ</h4>
+TopCoderのMarathon Matchと同じです．&lt;command&gt;にプログラムの実行コマンド，&lt;seed&gt;に乱数のシードを入れてください．
+<br>
+<br>
+<code>
+$ java -jar Tester.jar -exec "&lt;command&gt;" -seed &lt;seed&gt;
+</code>
+<br>
+<br>
+その他オプション
+<br>
+-vis  : ビジュアライズ<br>
+-save : 画像の保存<br>
+-num  : 頂点番号の描画<br>
 
 {% endblock %}
                 
