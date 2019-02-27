@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3 class="underlined">Code</h4>
+<h3 class="underlined">Code</h3>
 <br>
 <table class="tbl bordered center narrow">
     <thead>
@@ -23,12 +23,12 @@
     </tbody>
 </table>
 <br>
-<style>.CodeMirror {border: 1px solid #CCCCCC; height: 425px}</style>
+<style>.CodeMirror {border: 1px solid #CCCCCC; height: {{ line }}em }</style>
 <textarea id="editor" readonly name="source_code">{{ code }}</textarea>
 <script>
     CodeMirror.fromTextArea(document.getElementById("editor"), {
         mode: "text/x-csrc",
-        lineNumbers: true,
+        lineNumbers: true
     });
 </script>
 {% endblock %}

@@ -174,7 +174,8 @@ def show_code():
             result = cursor.fetchall()[0]
         connection.close()
 
-        return render_template("show_code.html", code=result["code"], submit=result)
+        line_count = result["code"].count(os.linesep) + 2
+        return render_template("show_code.html", code=result["code"], submit=result, line=line_count)
 
 ##################################################################################################################
 if __name__ == "__main__":
