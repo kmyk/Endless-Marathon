@@ -27,6 +27,7 @@ def docker_exec(command, timeout=None, client=None):
         thread.join(timeout=timeout)
     finally:
         container.kill()
+        container.remove()
     return que.get()
 
 @app.route("/")
