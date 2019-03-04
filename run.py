@@ -23,15 +23,12 @@ def docker_exec_code_test(code=None, lang=None, stdin=None):
         file.write(stdin)
 
     cmd = ""
-    image = ""
     if lang == "cpp":
         cmd = "bash -c 'g++ a.cpp -o a.out -std=c++11 && time ./a.out < input.txt'"
-        image = "gcc"
         with open("execute/a.cpp", "w") as file:
             file.write(code)
     elif lang == "java":
         cmd = "bash -c 'javac Main.java && time java Main < input.txt'"
-        image = "java"
         with open("execute/Main.java", "w") as file:
             file.write(code)
 
@@ -43,7 +40,7 @@ def docker_exec_code_test(code=None, lang=None, stdin=None):
     que = queue.Queue()
     try:
         container = client.containers.run(
-            image=image,
+            image="ubuntu-judge",
             detach=True,
             stdin_open=True,
             volumes=volumes,
@@ -83,11 +80,9 @@ def docker_exec_submit(code=None, lang=None):
     if not os.path.exists("execute"):
         os.makedirs("execute")
 
-    image = ""
     cmd = ""
     if lang == "cpp":
         cmd = "bash -c 'g++ a.cpp -std=c++11 -o a.out && g++ ./tsp/a.cpp -o ./tsp/a.out && ./tsp/a.out tsp/input.txt tsp/output.txt'"
-        image = "gcc"
         with open("execute/a.cpp", "w") as file:
             file.write(code)
 
@@ -99,7 +94,13 @@ def docker_exec_submit(code=None, lang=None):
     que = queue.Queue()
     try:
         if lang == "cpp":
-            container = client.containers.run(image=image, detach=True, stdin_open=True, volumes=volumes, working_dir=working_dir, network_disabled=True)
+            container = client.containers.run(
+                image="ubuntu-judge", 
+                detach=True, 
+                stdin_open=True, 
+                volumes=volumes, 
+                working_dir=working_dir, 
+                network_disabled=True)
         def func():
             que.put(container.exec_run(cmd, demux=True))
         thread = threading.Thread(target=func)
