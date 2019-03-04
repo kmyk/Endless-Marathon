@@ -1,10 +1,33 @@
 import os
-import subprocess
 import pymysql.cursors
 import time 
+import pathlib
+import queue
+import sys
+import threading
+
+import docker  # https://pypi.org/project/docker
 
 from flask import *
 app = Flask(__name__)
+
+def docker_exec(command, directory=None, timeout=None, client=None):
+    client = client or docker.from_env()
+
+    working_dir = '/mnt/workspace'
+    volumes = { directory or str(pathlib.Path.cwd()): { 'bind': working_dir, 'mode': 'rw' } }
+
+    que = queue.Queue()
+    try:
+        container = client.containers.run('gcc', detach=True, stdin_open=True, volumes=volumes, working_dir=working_dir, network_disabled=True)
+        def func():
+            que.put(container.exec_run(command, demux=True))
+        thread = threading.Thread(target=func)
+        thread.start()
+        thread.join(timeout=timeout)
+    finally:
+        container.kill()
+    return que.get()
 
 @app.route("/")
 def index():
@@ -30,10 +53,10 @@ def code_test():
         if lang == "cpp":
             with open("execute/a.cpp", "w") as file:
                 file.write(code)
-            cmd = "g++ execute/a.cpp -o execute/a.out -std=c++11 && time execute/a.out < execute/input.txt"
-            proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout = proc.stdout.decode("utf8")
-            stderr = proc.stderr.decode("utf8")
+            cmd = "g++ a.cpp -o a.out -std=c++11 && time a.out < input.txt"
+            exit_code, (stdout, stderr) = docker_exec(cmd, directory='execute', timeout=30)
+            stdout = stdout.decode("utf8")
+            stderr = stderr.decode("utf8")
         
         return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr)
 
@@ -55,15 +78,14 @@ def submit():
             return render_template("submit.html", error="Source Code is empty!", user=user)
         
         if lang == "cpp":
-            try:
-                if not os.path.exists("execute"):
-                    os.makedirs("execute")
-                with open("execute/a.cpp", "w") as file:
-                    file.write(code)
-                cmd = "g++ execute/a.cpp -std=c++11 -o execute/a.out"
-                ret = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-            except subprocess.CalledProcessError as e:   
-                return render_template("submit.html", error="Compile Error!\n" + str(e.output.decode('utf-8')), code=code, user=user)
+            if not os.path.exists("execute"):
+                os.makedirs("execute")
+            with open("execute/a.cpp", "w") as file:
+                file.write(code)
+            cmd = "g++ a.cpp -std=c++11 -o execute/a.out"
+            exit_code, (stdout, stderr) = docker_exec(cmd, directory='execute', timeout=30)
+            if not exit_code:
+                return render_template("submit.html", error="Compile Error!\n" + str(stderr.decode('utf-8')), code=code, user=user)
   
         code_length = 0
         time_stamp = time.strftime('%Y-%m-%d %H:%M:%S')
