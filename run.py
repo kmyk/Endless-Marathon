@@ -11,8 +11,75 @@ import docker  # https://pypi.org/project/docker
 from flask import *
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 ##################################################################################################################
-def docker_exec(command, timeout=None, client=None):
+def docker_exec_code_test(code=None, lang=None, stdin=None):
+    if not os.path.exists("execute"):
+        os.makedirs("execute")
+    with open("execute/input.txt", "w") as file:
+        file.write(stdin)
+
+    cmd = ""
+    image = ""
+    if lang == "cpp":
+        cmd = "bash -c 'g++ a.cpp -o a.out -std=c++11 && time ./a.out < input.txt'"
+        image = "gcc"
+        with open("execute/a.cpp", "w") as file:
+            file.write(code)
+    elif lang == "java":
+        cmd = "bash -c 'javac Main.java && time java Main < input.txt'"
+        image = "java"
+        with open("execute/Main.java", "w") as file:
+            file.write(code)
+
+    ############################################
+    client = docker.from_env()
+    working_dir = '/mnt/workspace'
+    volumes = { str(pathlib.Path.cwd()) + '/execute': { 'bind': working_dir, 'mode': 'rw' } }
+
+    que = queue.Queue()
+    try:
+        container = client.containers.run(
+            image=image,
+            detach=True,
+            stdin_open=True,
+            volumes=volumes,
+            working_dir=working_dir,
+            network_disabled=True)
+
+        def func():
+            que.put(container.exec_run(cmd, demux=True))
+        thread = threading.Thread(target=func)
+        thread.start()
+        thread.join(timeout=30)
+    finally:
+        container.kill()
+        container.remove()
+
+    exit_code, (stdout, stderr) = que.get()
+    stdout = stdout.decode("utf8") if stdout is not None else ""
+    stderr = stderr.decode("utf8") if stdout is not None else ""
+    return exit_code, stdout, stderr
+
+###################
+@app.route("/code_test", methods=["GET", "POST"])
+def code_test():
+    if request.method == "GET":
+        return render_template("code_test.html", code="", stdin="", stdout="", stderr="")
+    else:
+        code  = request.form["code"] if "code" in request.form else ""
+        stdin = request.form["stdin"] if "stdin" in request.form else ""
+        lang  = request.form["lang-sel"]
+
+        exit_code, stdout, stderr = docker_exec_code_test(code, lang, stdin)
+        return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr)
+
+    
+##################################################################################################################
+def docker_exec(command, lang=None, timeout=None, client=None):
     client = client or docker.from_env()
 
     working_dir = '/mnt/workspace'
@@ -20,7 +87,8 @@ def docker_exec(command, timeout=None, client=None):
 
     que = queue.Queue()
     try:
-        container = client.containers.run('gcc', detach=True, stdin_open=True, volumes=volumes, working_dir=working_dir, network_disabled=True)
+        if lang == "cpp":
+            container = client.containers.run(image="gcc", detach=True, stdin_open=True, volumes=volumes, working_dir=working_dir, network_disabled=True)
         def func():
             que.put(container.exec_run(command, demux=True))
         thread = threading.Thread(target=func)
@@ -31,41 +99,7 @@ def docker_exec(command, timeout=None, client=None):
         container.remove()
     return que.get()
 
-##################################################################################################################
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-##################################################################################################################
-@app.route("/code_test", methods=["GET", "POST"])
-def code_test():
-    if request.method == "GET":
-        return render_template("code_test.html", code="", stdin="", stdout="", stderr="")
-    else:
-        code  = request.form["code"] if "code" in request.form else ""
-        stdin = request.form["stdin"] if "stdin" in request.form else ""
-        lang  = request.form["lang-sel"]
-        
-        if not os.path.exists("execute"):
-            os.makedirs("execute")
-        with open("execute/input.txt", "w") as file:
-            file.write(stdin)
-        
-        stdout = ""
-        stderr = ""
-        if lang == "cpp":
-            with open("execute/a.cpp", "w") as file:
-                file.write(code)
-            cmd = "bash -c 'g++ a.cpp -o a.out -std=c++11 && time ./a.out < input.txt'"
-            exit_code, (stdout, stderr) = docker_exec(cmd, timeout=30)
-            stdout = stdout.decode("utf8") if stdout is not None else ""
-            stderr = stderr.decode("utf8") if stdout is not None else ""
-        
-        return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr)
-
-    
-##################################################################################################################
+#################
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
     if request.method == "GET":
@@ -87,7 +121,7 @@ def submit():
             with open("execute/a.cpp", "w") as file:
                 file.write(code)
             cmd = "g++ a.cpp -std=c++11 -o a.out"
-            exit_code, (stdout, stderr) = docker_exec(cmd, timeout=30)
+            exit_code, (stdout, stderr) = docker_exec(cmd, lang, timeout=30)
             stdout = stdout.decode("utf8") if stdout is not None else ""
             stderr = stderr.decode("utf8") if stdout is not None else ""
             if exit_code:
