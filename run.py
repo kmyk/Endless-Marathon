@@ -11,11 +11,11 @@ import docker  # https://pypi.org/project/docker
 from flask import *
 app = Flask(__name__)
 
-def docker_exec(command, directory=None, timeout=None, client=None):
+def docker_exec(command, timeout=None, client=None):
     client = client or docker.from_env()
 
     working_dir = '/mnt/workspace'
-    volumes = { directory or str(pathlib.Path.cwd()): { 'bind': working_dir, 'mode': 'rw' } }
+    volumes = { str(pathlib.Path.cwd()) + '/execute': { 'bind': working_dir, 'mode': 'rw' } }
 
     que = queue.Queue()
     try:
@@ -31,7 +31,7 @@ def docker_exec(command, directory=None, timeout=None, client=None):
 
 @app.route("/")
 def index():
-	return render_template("index.html")
+    return render_template("index.html")
 
 ##################################################################################################################
 @app.route("/code_test", methods=["GET", "POST"])
@@ -53,8 +53,8 @@ def code_test():
         if lang == "cpp":
             with open("execute/a.cpp", "w") as file:
                 file.write(code)
-            cmd = "g++ a.cpp -o a.out -std=c++11 && time a.out < input.txt"
-            exit_code, (stdout, stderr) = docker_exec(cmd, directory='execute', timeout=30)
+            cmd = "bash -c 'g++ a.cpp -o a.out -std=c++11 && time ./a.out < input.txt'"
+            exit_code, (stdout, stderr) = docker_exec(cmd, timeout=30)
             stdout = stdout.decode("utf8")
             stderr = stderr.decode("utf8")
         
@@ -82,9 +82,9 @@ def submit():
                 os.makedirs("execute")
             with open("execute/a.cpp", "w") as file:
                 file.write(code)
-            cmd = "g++ a.cpp -std=c++11 -o execute/a.out"
-            exit_code, (stdout, stderr) = docker_exec(cmd, directory='execute', timeout=30)
-            if not exit_code:
+            cmd = "g++ a.cpp -std=c++11 -o a.out"
+            exit_code, (stdout, stderr) = docker_exec(cmd, timeout=30)
+            if exit_code:
                 return render_template("submit.html", error="Compile Error!\n" + str(stderr.decode('utf-8')), code=code, user=user)
   
         code_length = 0
@@ -207,6 +207,6 @@ def traveling_salesman():
 
 ##################################################################################################################
 if __name__ == "__main__":
-	app.run(host="localhost", port=5000)
+    app.run(host="localhost", port=5000)
 
 
