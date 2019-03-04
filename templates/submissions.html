@@ -22,6 +22,7 @@
                 <th>UserID</th>
                 <th>time</th>
                 <th>language</th>
+                <th>score</th>
                 <th>code</th>
             </tr>
         </thead>
@@ -33,6 +34,7 @@
                 <td>{{ submit.user_id }}</td>
                 <td>{{ submit.time_stamp }}</td>
                 <td>{{ submit.language }}</td>
+                <td>{{ submit.score }}</td>
                 <td><button type='submit' name='code_id' value='{{ submit.code_id }}'>code</button></td>
             </tr>
             {% else %}
