@@ -11,6 +11,7 @@ import docker  # https://pypi.org/project/docker
 from flask import *
 app = Flask(__name__)
 
+##################################################################################################################
 def docker_exec(command, timeout=None, client=None):
     client = client or docker.from_env()
 
@@ -29,6 +30,8 @@ def docker_exec(command, timeout=None, client=None):
         container.kill()
         container.remove()
     return que.get()
+
+##################################################################################################################
 
 @app.route("/")
 def index():
@@ -56,8 +59,8 @@ def code_test():
                 file.write(code)
             cmd = "bash -c 'g++ a.cpp -o a.out -std=c++11 && time ./a.out < input.txt'"
             exit_code, (stdout, stderr) = docker_exec(cmd, timeout=30)
-            stdout = stdout.decode("utf8")
-            stderr = stderr.decode("utf8")
+            stdout = stdout.decode("utf8") if stdout is not None else ""
+            stderr = stderr.decode("utf8") if stdout is not None else ""
         
         return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr)
 
@@ -85,6 +88,8 @@ def submit():
                 file.write(code)
             cmd = "g++ a.cpp -std=c++11 -o a.out"
             exit_code, (stdout, stderr) = docker_exec(cmd, timeout=30)
+            stdout = stdout.decode("utf8") if stdout is not None else ""
+            stderr = stderr.decode("utf8") if stdout is not None else ""
             if exit_code:
                 return render_template("submit.html", error="Compile Error!\n" + str(stderr.decode('utf-8')), code=code, user=user)
   
