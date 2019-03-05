@@ -85,12 +85,15 @@ def code_test():
     
 ##################################################################################################################
 def docker_exec_submit(code=None, lang=None):
-    problem_dir = ""
+    problem_dir = "problems/traveling-salesman"
     cmd = ""
     if lang == "cpp":
-        problem_dir = "problems/traveling-salesman"
         cmd = "bash -c 'g++ a.cpp -std=c++11 -o a.out && java -jar Tester.jar -exec ./a.out -seed 1'"
         with open(problem_dir + "/a.cpp", "w") as file:
+            file.write(code)
+    elif lang == "java":
+        cmd = '''bash -c "javac Main.java && java -jar Tester.jar -exec 'java Main' -seed 1"'''
+        with open(problem_dir + "/Main.java", "w") as file:
             file.write(code)
 
     client = docker.from_env()
@@ -100,14 +103,13 @@ def docker_exec_submit(code=None, lang=None):
 
     que = queue.Queue()
     try:
-        if lang == "cpp":
-            container = client.containers.run(
-                image=DOCKER_IMAGE, 
-                detach=True, 
-                stdin_open=True, 
-                volumes=volumes, 
-                working_dir=working_dir, 
-                network_disabled=True)
+        container = client.containers.run(
+            image=DOCKER_IMAGE, 
+            detach=True, 
+            stdin_open=True, 
+            volumes=volumes, 
+            working_dir=working_dir, 
+            network_disabled=True)
         def func():
             que.put(container.exec_run(cmd, demux=True))
         thread = threading.Thread(target=func)

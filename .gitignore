@@ -6,4 +6,6 @@ sample*
 __pycache__
 *.pyc
 execute
+Main.class
+Main.java
 
