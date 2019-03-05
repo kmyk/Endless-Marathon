@@ -24,6 +24,9 @@ def index():
 ##################################################################################################################
 def docker_exec_code_test(code=None, lang=None, stdin=None):
     problem_dir = "problems/execute"
+    if not os.path.exists(problem_dir):
+        os.makedirs(problem_dir)
+
     with open(problem_dir + "/input.txt", "w") as file:
         file.write(stdin)
 
