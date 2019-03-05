@@ -23,26 +23,24 @@ def index():
 
 ##################################################################################################################
 def docker_exec_code_test(code=None, lang=None, stdin=None):
-    
-    if not os.path.exists("execute"):
-        os.makedirs("execute")
-    with open("execute/input.txt", "w") as file:
+    problem_dir = "problems/execute"
+    with open(problem_dir + "/input.txt", "w") as file:
         file.write(stdin)
 
     cmd = ""
     if lang == "cpp":
         cmd = "bash -c 'g++ a.cpp -o a.out -std=c++11 && time ./a.out < input.txt'"
-        with open("execute/a.cpp", "w") as file:
+        with open(problem_dir + "/a.cpp", "w") as file:
             file.write(code)
     elif lang == "java":
         cmd = "bash -c 'javac Main.java && time java Main < input.txt'"
-        with open("execute/Main.java", "w") as file:
+        with open(problem_dir + "/Main.java", "w") as file:
             file.write(code)
 
     ############################################
     client = docker.from_env()
     working_dir = '/mnt/workspace'
-    volumes = { str(pathlib.Path.cwd()) + '/execute': { 'bind': working_dir, 'mode': 'rw' } }
+    volumes = { str(pathlib.Path.cwd()) + "/" + problem_dir: { 'bind': working_dir, 'mode': 'rw' } }
 
     que = queue.Queue()
     try:
