@@ -8,6 +8,12 @@ import threading
 
 import docker  # https://pypi.org/project/docker
 
+##################################################################################################################
+
+DOCKER_IMAGE = "ubuntu-judge"
+
+##################################################################################################################
+
 from flask import *
 app = Flask(__name__)
 
@@ -17,6 +23,7 @@ def index():
 
 ##################################################################################################################
 def docker_exec_code_test(code=None, lang=None, stdin=None):
+    
     if not os.path.exists("execute"):
         os.makedirs("execute")
     with open("execute/input.txt", "w") as file:
@@ -40,7 +47,7 @@ def docker_exec_code_test(code=None, lang=None, stdin=None):
     que = queue.Queue()
     try:
         container = client.containers.run(
-            image="ubuntu-judge",
+            image=DOCKER_IMAGE,
             detach=True,
             stdin_open=True,
             volumes=volumes,
@@ -77,25 +84,24 @@ def code_test():
     
 ##################################################################################################################
 def docker_exec_submit(code=None, lang=None):
-    if not os.path.exists("execute"):
-        os.makedirs("execute")
-
+    problem_dir = ""
     cmd = ""
     if lang == "cpp":
-        cmd = "bash -c 'g++ a.cpp -std=c++11 -o a.out && g++ ./tsp/a.cpp -o ./tsp/a.out && ./tsp/a.out tsp/input.txt tsp/output.txt'"
-        with open("execute/a.cpp", "w") as file:
+        problem_dir = "problems/traveling-salesman"
+        cmd = "bash -c 'g++ a.cpp -std=c++11 -o a.out && java -jar Tester.jar -exec ./a.out -seed 1'"
+        with open(problem_dir + "/a.cpp", "w") as file:
             file.write(code)
 
     client = docker.from_env()
 
     working_dir = '/mnt/workspace'
-    volumes = { str(pathlib.Path.cwd()) + '/execute': { 'bind': working_dir, 'mode': 'rw' } }
+    volumes = { str(pathlib.Path.cwd()) + "/" + problem_dir: { 'bind': working_dir, 'mode': 'rw' } }
 
     que = queue.Queue()
     try:
         if lang == "cpp":
             container = client.containers.run(
-                image="ubuntu-judge", 
+                image=DOCKER_IMAGE, 
                 detach=True, 
                 stdin_open=True, 
                 volumes=volumes, 
@@ -138,7 +144,8 @@ def submit():
         ############  
         code_length = 0
         time_stamp = time.strftime('%Y-%m-%d %H:%M:%S')
-        score = float(stdout)
+        st = stdout.split(' ')
+        score = float(st[2])
         execution_time = 0
 
         connection = pymysql.connect(
