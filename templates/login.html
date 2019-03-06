@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3 class="underlined">Login</h3>
+<br>
+<form name="form" method="POST" action="/login" class="form inline">
+    <div class="input-container">
+        <label for="form-text-inline" class="screen-readers">Text</label>
+        <input type="text" name="username" placeholder="username">
+    </div>
+    <div class="input-container">
+        <label for="form-text-inline" class="screen-readers">Text</label>
+        <input type="text" name="password" placeholder="password">
+    </div>
+    <div class="input-container buttons">
+        <button type="submit" class="btn fill blue">Login</button>
+    </div>
+    <font color="red">{{ error }}</font>
+</form>
+<br>
+{% endblock %}
+                

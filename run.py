@@ -16,10 +16,7 @@ DOCKER_IMAGE = "ubuntu-judge"
 
 from flask import *
 app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template("index.html")
+app.secret_key = "nyanchu~"
 
 ##################################################################################################################
 def docker_exec_code_test(code=None, lang=None, stdin=None):
@@ -72,6 +69,8 @@ def docker_exec_code_test(code=None, lang=None, stdin=None):
 ###################
 @app.route("/code_test", methods=["GET", "POST"])
 def code_test():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     if request.method == "GET":
         return render_template("code_test.html", code="", stdin="", stdout="", stderr="")
     else:
@@ -134,12 +133,14 @@ def get_recorde_num(connection=None, table=None):
 #################
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     if request.method == "GET":
         return render_template("submit.html", error="")
     else:
         lang = request.form["lang-sel"]
         prob = request.form["prob-sel"]
-        user = request.form["userid"]
+        user = session['username']
         code = request.form["source_code"] 
             
         if user == "":
@@ -275,46 +276,101 @@ def show_code():
 def traveling_salesman():
     return render_template("problems/traveling_salesman.html")
 
+# log in & log out
+##################################################################################################################
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    session.pop('username', None)
+    return redirect(url_for('index'))
+
+####################
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if 'username' in session:
+        return redirect(url_for('index'))
+
+    if request.method == "POST":
+        connection = pymysql.connect(
+            host        = "localhost",
+            user        = "root",
+            password    = "",
+            db          = "endless_marathon",
+            charset     = "utf8",
+            cursorclass = pymysql.cursors.DictCursor)
+
+        username = request.form['username']
+        password = request.form['password']
+        with connection.cursor() as cursor:   
+            sql = "select count(name) from users where name='" + username + "'";
+            cursor.execute(sql)
+            result = int(cursor.fetchall()[0]["count(name)"])
+            if result == 0:
+                connection.close()
+                return render_template("login.html", error="Who are you?")
+
+        correct_pass = ""
+        with connection.cursor() as cursor:   
+            sql = "select * from users where name='" + username + "'";
+            cursor.execute(sql)
+            correct_pass = cursor.fetchall()[0]["secret_value"]
+ 
+        if password != correct_pass:
+            return render_template("login.html", error="Your password is incorrect.")
+
+        session['username'] = username 
+        return redirect(url_for('index'))
+
+    return render_template("login.html")
     
 # sign up
 ##################################################################################################################
 @app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
-    user_id  = request.form["userid"]
-    password = request.form["password"]
-    if (user_id == ""):
-        return render_template("sign_up.html", error="User ID is empty!")
-    if (password  == ""):
-        return render_template("sign_up.html", error="Password is empty!")
-    
-    connection = pymysql.connect(
-        host        = "localhost",
-        user        = "root",
-        password    = "",
-        db          = "endless_marathon",
-        charset     = "utf8",
-        cursorclass = pymysql.cursors.DictCursor)
+    if request.method == "GET":
+        return render_template("sign_up.html")
+    else:
+        user_id  = request.form["userid"]
+        password = request.form["password"]
+        if (user_id == ""):
+            return render_template("sign_up.html", error="User ID is empty!")
+        if (password  == ""):
+            return render_template("sign_up.html", error="Password is empty!")
+        
+        connection = pymysql.connect(
+            host        = "localhost",
+            user        = "root",
+            password    = "",
+            db          = "endless_marathon",
+            charset     = "utf8",
+            cursorclass = pymysql.cursors.DictCursor)
 
-    with connection.cursor() as cursor:   
-        sql = "select count(name) from users where name='" + user_id + "'";
-        cursor.execute(sql)
-        result = int(cursor.fetchall()[0]["count(name)"])
-        if result != 0:
-            connection.close()
-            return render_template("sign_up.html", error="Already Exists " + user_id)
+        with connection.cursor() as cursor:   
+            sql = "select count(name) from users where name='" + user_id + "'";
+            cursor.execute(sql)
+            result = int(cursor.fetchall()[0]["count(name)"])
+            if result != 0:
+                connection.close()
+                return render_template("sign_up.html", error="Already Exists " + user_id)
 
-    user_num = get_recorde_num(connection=connection, table="users")
-    time_stamp = time.strftime('%Y-%m-%d %H:%M:%S')
-    with connection.cursor() as cursor:   
-        sql = '''INSERT INTO users (id, name, secret_key, created_at) VALUES (%s, %s, %s, %s)'''
-        r = cursor.execute(sql, (user_num, user_id, password, time_stamp))
-        connection.commit()
-    connection.close()
+        user_num = get_recorde_num(connection=connection, table="users")
+        time_stamp = time.strftime('%Y-%m-%d %H:%M:%S')
+        with connection.cursor() as cursor:   
+            sql = '''INSERT INTO users (id, name, secret_value, created_at) VALUES (%s, %s, %s, %s)'''
+            r = cursor.execute(sql, (user_num, user_id, password, time_stamp))
+            connection.commit()
+        connection.close()
 
     return render_template("sign_up.html", error="Success!")
 
 ##################################################################################################################
+@app.route("/")
+def index():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template("index.html")
+
 if __name__ == "__main__":
     app.run(host="localhost", port=5000)
-
 
