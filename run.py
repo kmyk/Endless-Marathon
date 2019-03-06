@@ -123,6 +123,15 @@ def docker_exec_submit(code=None, lang=None):
     return exit_code, stdout, stderr
 
 #################
+def get_recorde_num(connection=None, table=None):
+    with connection.cursor() as cursor:   
+        sql = "select count(*) from " + table;
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        return int(results[0]["count(*)"]) + 1
+    return 1
+
+#################
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
     if request.method == "GET":
@@ -159,13 +168,8 @@ def submit():
             charset     = "utf8",
             cursorclass = pymysql.cursors.DictCursor)
 
-        # submit id
-        code_id = ""
-        with connection.cursor() as cursor:   
-            sql = "select count(code_id) from submissions";
-            cursor.execute(sql)
-            results = cursor.fetchall()
-            code_id = int(results[0]["count(code_id)"]) + 1
+        #### 
+        code_id = get_recorde_num(connection=connection, table="submissions")
         
         with connection.cursor() as cursor:
             sql = '''INSERT INTO submissions (
