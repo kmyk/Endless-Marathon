@@ -243,6 +243,7 @@ def submissions():
             results = cursor.fetchall()
         connection.close()
 
+        results.reverse()
         return render_template("submissions.html", submits=results)
     
     
