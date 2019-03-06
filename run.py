@@ -168,9 +168,17 @@ def submit():
             charset     = "utf8",
             cursorclass = pymysql.cursors.DictCursor)
 
+        with connection.cursor() as cursor:   
+            sql = "select count(name) from users where name='" + user + "'";
+            cursor.execute(sql)
+            result = int(cursor.fetchall()[0]["count(name)"])
+            if result == 0:
+                connection.close()
+                return render_template("submit.html", error="User ID dose not exist!\n", code=code, user=user)
+
         #### 
         code_id = get_recorde_num(connection=connection, table="submissions")
-        
+    
         with connection.cursor() as cursor:
             sql = '''INSERT INTO submissions (
                 code_id, 
@@ -266,6 +274,44 @@ def show_code():
 @app.route("/problems/traveling_salesman")
 def traveling_salesman():
     return render_template("problems/traveling_salesman.html")
+
+    
+# sign up
+##################################################################################################################
+@app.route("/sign_up", methods=["GET", "POST"])
+def sign_up():
+    user_id  = request.form["userid"]
+    password = request.form["password"]
+    if (user_id == ""):
+        return render_template("sign_up.html", error="User ID is empty!")
+    if (password  == ""):
+        return render_template("sign_up.html", error="Password is empty!")
+    
+    connection = pymysql.connect(
+        host        = "localhost",
+        user        = "root",
+        password    = "",
+        db          = "endless_marathon",
+        charset     = "utf8",
+        cursorclass = pymysql.cursors.DictCursor)
+
+    with connection.cursor() as cursor:   
+        sql = "select count(name) from users where name='" + user_id + "'";
+        cursor.execute(sql)
+        result = int(cursor.fetchall()[0]["count(name)"])
+        if result != 0:
+            connection.close()
+            return render_template("sign_up.html", error="Already Exists " + user_id)
+
+    user_num = get_recorde_num(connection=connection, table="users")
+    time_stamp = time.strftime('%Y-%m-%d %H:%M:%S')
+    with connection.cursor() as cursor:   
+        sql = '''INSERT INTO users (id, name, secret_key, created_at) VALUES (%s, %s, %s, %s)'''
+        r = cursor.execute(sql, (user_num, user_id, password, time_stamp))
+        connection.commit()
+    connection.close()
+
+    return render_template("sign_up.html", error="Success!")
 
 ##################################################################################################################
 if __name__ == "__main__":

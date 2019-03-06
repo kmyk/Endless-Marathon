@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id              BIGINT NOT NULL PRIMARY KEY,
     name            VARCHAR(255) NOT NULL,
-    secret_value    VARCHAR(255) NOT NULL,
+    secret_key      VARCHAR(255) NOT NULL,
     created_at      DATETIME NOT NULL
 );
 
