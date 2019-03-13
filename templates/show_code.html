@@ -1,5 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
+<h3 class="underlined">{{ problem }}</h3>
+<br>
+<a href="/problems/{{ problem }}" class="btn">Problem Statement</a>
+<a href="/problems/{{ problem }}/submit" class="btn">Submit Code</a></li>
+<a href="/problems/{{ problem }}/submissions" class="btn">Submissions</a></li>
+<a href="/problems/{{ problem }}/code_test" class="btn">Code Test</a></li>
+<br>
+<br>
+<br>
+<br>
 <h3 class="underlined">Code</h3>
 <br>
 <table class="tbl bordered center narrow">

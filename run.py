@@ -247,7 +247,7 @@ def show_code():
     if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("submissions.html", username=session['username'])
+        return render_template("submissions.html", username=session['username'], problem=request.form["problem"])
     else:
         connection = pymysql.connect(
             host        = "localhost",
@@ -265,7 +265,7 @@ def show_code():
         connection.close()
 
         line_count = (result["code"].count(os.linesep) + 2) * 1.3
-        return render_template("show_code.html", code=result["code"], submit=result, line=line_count, username=session['username'])
+        return render_template("show_code.html", code=result["code"], submit=result, line=line_count, username=session['username'], problem=request.form["problem"])
     
 # problems
 ##################################################################################################################

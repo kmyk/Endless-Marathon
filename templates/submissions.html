@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+<h3 class="underlined">{{ problem }}</h3>
+<br>
 <a href="/problems/{{ problem }}" class="btn">Problem Statement</a>
 <a href="/problems/{{ problem }}/submit" class="btn">Submit Code</a></li>
 <a href="/problems/{{ problem }}/submissions" class="btn">Submissions</a></li>
@@ -10,6 +12,7 @@
 <br>
 <h3 class="underlined">Submissions</h3>
 <form name="form" method="POST" action="/show_code">
+    <input type="hidden" name="problem" value="{{ problem }}">
     <table class="tbl bordered center narrow">
         <thead>
             <tr>
