@@ -1,8 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
+<a href="/problems/{{ problem }}" class="btn">Problem Statement</a>
+<a href="/problems/{{ problem }}/submit" class="btn">Submit Code</a></li>
+<a href="/problems/{{ problem }}/submissions" class="btn">Submissions</a></li>
+<a href="/problems/{{ problem }}/code_test" class="btn">Code Test</a></li>
+<br>
+<br>
+<br>
+<br>
 <h3 class="underlined">Submit Code</h4>
 <br>
-<form name="form" method="POST" action="/submit">
+<form name="form" method="POST" action="/problems/{{ problem }}/submit">
     <div class="row">
         <div class="col of-8">
             Source Code : <br>
@@ -17,14 +25,7 @@
             <br>
         </div>
         <div class="col of-4">
-            Problem : <br>
-            <div class="input-container select">
-                <select name="prob-sel">
-                    <optgroup label="Problem">
-                        <option value="traveling-salesman">Traveling Salesman</option>
-                    </optgroup>
-                </select>
-            </div><br>
+            <input type="hidden" name="prob-sel" value="{{ problem }}">
             Language : <br>
             <div class="input-container select">
                 <select name="lang-sel">
@@ -37,7 +38,7 @@
             <div class="input-container buttons"><button type="submit" name="submit" class="btn blue">Submit</button></div>
             <br>
             Message :
-            <textarea readonly rows="12" style="width:100%;resize:none;background-color:#F8F8F8;color:#FF0000">{{ error }}</textarea>
+            <textarea readonly rows="15" style="width:100%;resize:none;background-color:#F8F8F8;color:#FF0000">{{ error }}</textarea>
         </div>
     </div>
 </form>

@@ -67,19 +67,18 @@ def docker_exec_code_test(code=None, lang=None, stdin=None):
     return exit_code, stdout, stderr
 
 ###################
-@app.route("/code_test", methods=["GET", "POST"])
-def code_test():
+def code_test(request=None, problem=None):
     if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("code_test.html", code="", stdin="", stdout="", stderr="", username=session['username'])
+        return render_template("code_test.html", code="", stdin="", stdout="", stderr="", username=session['username'], problem=problem)
     else:
         code  = request.form["code"] if "code" in request.form else ""
         stdin = request.form["stdin"] if "stdin" in request.form else ""
         lang  = request.form["lang-sel"]
 
         exit_code, stdout, stderr = docker_exec_code_test(code, lang, stdin)
-        return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr, username=session['username'])
+        return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr, username=session['username'], problem=problem)
 
     
 ##################################################################################################################
@@ -131,12 +130,11 @@ def get_recorde_num(connection=None, table=None):
     return 1
 
 #################
-@app.route("/submit", methods=["GET", "POST"])
-def submit():
+def submit(request=None, problem=None):
     if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("submit.html", error="", username=session['username'])
+        return render_template("submit.html", error="", username=session['username'], problem=problem)
     else:
         lang = request.form["lang-sel"]
         prob = request.form["prob-sel"]
@@ -144,15 +142,15 @@ def submit():
         code = request.form["source_code"] 
             
         if user == "":
-            return render_template("submit.html", error="UserID is empty!", code=code, username=session['username'])
+            return render_template("submit.html", error="UserID is empty!", code=code, username=session['username'], problem=problem)
         if code == "":
-            return render_template("submit.html", error="Source Code is empty!", user=user, username=session['username'])
+            return render_template("submit.html", error="Source Code is empty!", user=user, username=session['username'], problem=problem)
         
         exit_code, stdout, stderr = docker_exec_submit(code=code, lang=lang)
         stdout = stdout.decode("utf8") if stdout is not None else ""
         stderr = stderr.decode("utf8") if stderr is not None else ""
         if exit_code:
-            return render_template("submit.html", error="Compile Error!\n" + str(stderr), code=code, user=user, username=session['username'])
+            return render_template("submit.html", error="Compile Error!\n" + str(stderr), code=code, user=user, username=session['username'], problem=problem)
 
         ############  
         code_length = 0
@@ -175,7 +173,7 @@ def submit():
             result = int(cursor.fetchall()[0]["count(name)"])
             if result == 0:
                 connection.close()
-                return render_template("submit.html", error="User ID dose not exist!\n", code=code, user=user, username=session['username'])
+                return render_template("submit.html", error="User ID dose not exist!\n", code=code, user=user, username=session['username'], problem=problem)
 
         #### 
         code_id = get_recorde_num(connection=connection, table="submissions")
@@ -214,39 +212,33 @@ def submit():
                     <title>Endless Marathon</title>
                 </head>
                 <body>
-                    Success! : <a href="/submit">Submit</a>
+                    Success! : <a href="/problems/''' + problem + '''/submit">Submit</a>
                 </body>
             </html>'''
 
 ##################################################################################################################
-@app.route("/submissions", methods=["GET", "POST"])
-def submissions():
+def submissions(request=None, problem=None):
     if 'username' not in session:
         return redirect(url_for('login'))
-    if request.method == "GET":
-        return render_template("submissions.html", username=session['username'])
-    else:
-        user = request.form["userid"]
-        if user == "":
-            return render_template("submissions.html", error="UsedID is empty", username=session['username'])
+    
+    user = session['username']
+    connection = pymysql.connect(
+        host        = "localhost",
+        user        = "root",
+        password    = "",
+        db          = "endless_marathon",
+        charset     = "utf8",
+        cursorclass = pymysql.cursors.DictCursor)
+    
+    results = ""
+    with connection.cursor() as cursor:   
+        sql = "select * from submissions where user_id=%s";
+        cursor.execute(sql, (user))
+        results = cursor.fetchall()
+    connection.close()
 
-        connection = pymysql.connect(
-            host        = "localhost",
-            user        = "root",
-            password    = "",
-            db          = "endless_marathon",
-            charset     = "utf8",
-            cursorclass = pymysql.cursors.DictCursor)
-        
-        results = ""
-        with connection.cursor() as cursor:   
-            sql = "select * from submissions where user_id=%s";
-            cursor.execute(sql, (user))
-            results = cursor.fetchall()
-        connection.close()
-
-        results.reverse()
-        return render_template("submissions.html", submits=results, username=session['username'])
+    results.reverse()
+    return render_template("submissions.html", submits=results, username=session['username'], problem=problem)
     
     
 ##################################################################################################################
@@ -281,7 +273,19 @@ def show_code():
 def traveling_salesman():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template("problems/traveling_salesman.html", username=session['username'])
+    return render_template("problem.html", username=session['username'], problem="traveling_salesman")
+
+@app.route("/problems/traveling_salesman/submit", methods=["GET", "POST"])
+def traveling_salesman_submit():
+    return submit(request=request, problem="traveling_salesman")
+
+@app.route("/problems/traveling_salesman/submissions")
+def traveling_salesman_submissions():
+    return submissions(request=request, problem="traveling_salesman")
+
+@app.route("/problems/traveling_salesman/code_test", methods=["GET", "POST"])
+def traveling_salesman_code_test():
+    return code_test(request=request, problem="traveling_salesman")
 
 # log in & log out
 ##################################################################################################################
