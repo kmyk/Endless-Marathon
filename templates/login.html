@@ -1,21 +1,110 @@
-{% extends "layout.html" %}
-{% block content %}
-<h3 class="underlined">Login</h3>
-<br>
-<form name="form" method="POST" action="/login" class="form inline">
-    <div class="input-container">
-        <label for="form-text-inline" class="screen-readers">Text</label>
-        <input type="text" name="username" placeholder="username">
-    </div>
-    <div class="input-container">
-        <label for="form-text-inline" class="screen-readers">Text</label>
-        <input type="text" name="password" placeholder="password">
-    </div>
-    <div class="input-container buttons">
-        <button type="submit" class="btn fill blue">Login</button>
-    </div>
-    <font color="red">{{ error }}</font>
-</form>
-<br>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+    
+    <!------------------------------------------------------------------------------------------------------>
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <meta name="author" content="kosakkun">
+        <meta name="description" content="">
+        <title>Endless Marathon</title>
+        
+        <!-- CSS -->
+        <link href="/static/spark/dist/css/spark.min.css" rel="stylesheet">
+
+        <!-- JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="/static/spark/dist/js/spark.min.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+        
+        <!-- Create a simple CodeMirror instance -->
+        <link rel="stylesheet" href="/static/CodeMirror/lib/codemirror.css">
+        <script src="/static/CodeMirror/lib/codemirror.js"></script>
+        <script src="/static/CodeMirror/mode/clike/clike.js"></script>
+        
+    </head>
+    
+    <!------------------------------------------------------------------------------------------------------>
+    
+    <body>
+        <nav class="bar right surround dark" role="navigation">
+            <a class="brand" href="/">🤤 Endless Marathon</a>
+            <ul>
+                <li><a class="heavy" href="/login">Login & Sign Up</a></li>
+            </ul>
+        </nav>
+        <div class="container">
+            
+            <!---- header ---->
+            <div class="row">
+                <div class="col of-2"></div>
+                <div class="col of-8">
+                    
+                </div>
+                <div class="col of-2"></div>
+            </div>
+            
+            <!---- main ---->
+            <div class="row">
+                <div class="col of-2"></div>
+                <div class="col of-8">
+                    <!---- Login ---->
+                    <h3 class="underlined">Login</h3>
+                    <br>
+                    <form name="form" method="POST" action="/login" class="form inline">
+                        <div class="input-container">
+                            <label for="form-text-inline" class="screen-readers">Text</label>
+                            <input type="text" name="username" placeholder="username">
+                        </div>
+                        <div class="input-container">
+                            <label for="form-text-inline" class="screen-readers">Text</label>
+                            <input type="text" name="password" placeholder="password">
+                        </div>
+                        <div class="input-container buttons">
+                            <button type="submit" class="btn fill blue">Login</button>
+                        </div>
+                        <font color="red">{{ error_login }}</font>
+                    </form>
+                    <br>
+                    <br>
+                    <br>
+                    <!--- Sign Up ---->
+                    <h3 class="underlined">Sign Up</h3>
+                    <br>
+                    <form name="form" method="POST" action="/sign_up" class="form inline">
+                        <div class="input-container">
+                            <label for="form-text-inline" class="screen-readers">Text</label>
+                            <input type="text" name="userid" placeholder="username">
+                        </div>
+                        <div class="input-container">
+                            <label for="form-text-inline" class="screen-readers">Text</label>
+                            <input type="text" name="password" placeholder="password">
+                        </div>
+                        <div class="input-container buttons">
+                            <button type="submit" class="btn fill blue">Sign Up</button>
+                        </div>
+                        <font color="red">{{ error_sign_up }}</font>
+                    </form>
+                    <br>
+                </div>
+                <div class="col of-2"></div>
+            </div>
+            
+            <!---- footer ---->
+            <div class="row">
+                <div class="col of-2"></div>
+                <div class="col of-8">
+                    <hr>
+                    ©2019 kosakkun
+                </div>
+                <div class="col of-2"></div>
+            </div>
+        
+        </div>
+        
+    </body>
+    
+</html>
+
                 

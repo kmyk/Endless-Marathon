@@ -72,14 +72,14 @@ def code_test():
     if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("code_test.html", code="", stdin="", stdout="", stderr="")
+        return render_template("code_test.html", code="", stdin="", stdout="", stderr="", username=session['username'])
     else:
         code  = request.form["code"] if "code" in request.form else ""
         stdin = request.form["stdin"] if "stdin" in request.form else ""
         lang  = request.form["lang-sel"]
 
         exit_code, stdout, stderr = docker_exec_code_test(code, lang, stdin)
-        return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr)
+        return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr, username=session['username'])
 
     
 ##################################################################################################################
@@ -136,7 +136,7 @@ def submit():
     if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("submit.html", error="")
+        return render_template("submit.html", error="", username=session['username'])
     else:
         lang = request.form["lang-sel"]
         prob = request.form["prob-sel"]
@@ -144,15 +144,15 @@ def submit():
         code = request.form["source_code"] 
             
         if user == "":
-            return render_template("submit.html", error="UserID is empty!", code=code)
+            return render_template("submit.html", error="UserID is empty!", code=code, username=session['username'])
         if code == "":
-            return render_template("submit.html", error="Source Code is empty!", user=user)
+            return render_template("submit.html", error="Source Code is empty!", user=user, username=session['username'])
         
         exit_code, stdout, stderr = docker_exec_submit(code=code, lang=lang)
         stdout = stdout.decode("utf8") if stdout is not None else ""
         stderr = stderr.decode("utf8") if stderr is not None else ""
         if exit_code:
-            return render_template("submit.html", error="Compile Error!\n" + str(stderr), code=code, user=user)
+            return render_template("submit.html", error="Compile Error!\n" + str(stderr), code=code, user=user, username=session['username'])
 
         ############  
         code_length = 0
@@ -175,7 +175,7 @@ def submit():
             result = int(cursor.fetchall()[0]["count(name)"])
             if result == 0:
                 connection.close()
-                return render_template("submit.html", error="User ID dose not exist!\n", code=code, user=user)
+                return render_template("submit.html", error="User ID dose not exist!\n", code=code, user=user, username=session['username'])
 
         #### 
         code_id = get_recorde_num(connection=connection, table="submissions")
@@ -221,12 +221,14 @@ def submit():
 ##################################################################################################################
 @app.route("/submissions", methods=["GET", "POST"])
 def submissions():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("submissions.html")
+        return render_template("submissions.html", username=session['username'])
     else:
         user = request.form["userid"]
         if user == "":
-            return render_template("submissions.html", error="UsedID is empty")
+            return render_template("submissions.html", error="UsedID is empty", username=session['username'])
 
         connection = pymysql.connect(
             host        = "localhost",
@@ -244,14 +246,16 @@ def submissions():
         connection.close()
 
         results.reverse()
-        return render_template("submissions.html", submits=results)
+        return render_template("submissions.html", submits=results, username=session['username'])
     
     
 ##################################################################################################################
 @app.route("/show_code", methods=["GET", "POST"])
 def show_code():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("submissions.html")
+        return render_template("submissions.html", username=session['username'])
     else:
         connection = pymysql.connect(
             host        = "localhost",
@@ -269,13 +273,15 @@ def show_code():
         connection.close()
 
         line_count = (result["code"].count(os.linesep) + 2) * 1.3
-        return render_template("show_code.html", code=result["code"], submit=result, line=line_count)
+        return render_template("show_code.html", code=result["code"], submit=result, line=line_count, username=session['username'])
     
 # problems
 ##################################################################################################################
 @app.route("/problems/traveling_salesman")
 def traveling_salesman():
-    return render_template("problems/traveling_salesman.html")
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template("problems/traveling_salesman.html", username=session['username'])
 
 # log in & log out
 ##################################################################################################################
@@ -309,7 +315,7 @@ def login():
             result = int(cursor.fetchall()[0]["count(name)"])
             if result == 0:
                 connection.close()
-                return render_template("login.html", error="Who are you?")
+                return render_template("login.html", error_login="Who are you?")
 
         correct_pass = ""
         with connection.cursor() as cursor:   
@@ -318,7 +324,7 @@ def login():
             correct_pass = cursor.fetchall()[0]["secret_value"]
  
         if password != correct_pass:
-            return render_template("login.html", error="Your password is incorrect.")
+            return render_template("login.html", error_login="Your password is incorrect.")
 
         session['username'] = username 
         return redirect(url_for('index'))
@@ -329,15 +335,17 @@ def login():
 ##################################################################################################################
 @app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
+    if 'username' in session:
+        return redirect(url_for('index'))
     if request.method == "GET":
-        return render_template("sign_up.html")
+        return render_template("sign_up.html", username=session['username'])
     else:
         user_id  = request.form["userid"]
         password = request.form["password"]
         if (user_id == ""):
-            return render_template("sign_up.html", error="User ID is empty!")
+            return render_template("login.html", error_sign_up="User ID is empty!")
         if (password  == ""):
-            return render_template("sign_up.html", error="Password is empty!")
+            return render_template("login.html", error_sign_up="Password is empty!")
         
         connection = pymysql.connect(
             host        = "localhost",
@@ -353,7 +361,7 @@ def sign_up():
             result = int(cursor.fetchall()[0]["count(name)"])
             if result != 0:
                 connection.close()
-                return render_template("sign_up.html", error="Already Exists " + user_id)
+                return render_template("login.html", error_sign_up="Already Exists " + user_id)
 
         user_num = get_recorde_num(connection=connection, table="users")
         time_stamp = time.strftime('%Y-%m-%d %H:%M:%S')
@@ -363,14 +371,14 @@ def sign_up():
             connection.commit()
         connection.close()
 
-    return render_template("sign_up.html", error="Success!")
+    return render_template("login.html", error_sign_up="Success!")
 
 ##################################################################################################################
 @app.route("/")
 def index():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template("index.html")
+    return render_template("index.html", username=session['username'])
 
 if __name__ == "__main__":
     app.run(host="localhost", port=5000)

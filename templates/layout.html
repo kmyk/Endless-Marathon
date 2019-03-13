@@ -43,8 +43,14 @@
                 <li><a class="heavy" href="/submit">Submit Code</a></li>
                 <li><a class="heavy" href="/submissions">Submissions</a></li>
                 <li><a class="heavy" href="/code_test">Code Test</a></li>
-                <li><a class="heavy" href="/sign_up">Sign Up</a></li>
-                <li><a class="heavy" href="/logout">Logout</a></li>
+                <li class="drop">
+                    <a class="heavy">{{ username }}</a>
+                    <div class="box">
+                        <ul class="inner">
+                            <li><a class="heavy" href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </nav>
         <div class="container">
