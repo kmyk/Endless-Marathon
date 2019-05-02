@@ -145,20 +145,9 @@ def submit(request=None, problem=None):
         
         
     connection.close()
-        
-    return '''
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="author" content="kosakkun">
-                <meta name="description" content="">
-                <title>Endless Marathon</title>
-            </head>
-            <body>
-                Success! : <a href="/problems/''' + problem + '''/submit">Submit</a>
-            </body>
-        </html>'''
+    return render_template("submission_success.html", username=session['username'])
+
+
 
 
 
