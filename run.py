@@ -29,6 +29,20 @@ def get_recorde_num(connection=None, table=None):
     return 1
 
 
+
+
+#############################################################################################################################################
+##
+## PROBLEMS
+##
+#############################################################################################################################################
+#############################################################################################################################################
+
+@app.route("/problem/<problem_id>")
+def problem(problem_id=None):
+    return render_template("problem.html", username=session['username'], problem_id=problem_id)
+
+
     
 
 #############################################################################################################################################
@@ -156,7 +170,8 @@ def submit(problem_id=None):
 #############################################################################################################################################
 #############################################################################################################################################
 
-def submissions(request=None, problem=None):
+@app.route("/problem/<problem_id>/submissions")
+def submissions(problem_id=None):
     if 'username' not in session:
         return redirect(url_for('login'))
     
@@ -186,7 +201,7 @@ def submissions(request=None, problem=None):
         
     connection.close()
     results.reverse()
-    return render_template("submissions.html", submits=results, username=session['username'], problem=problem)
+    return render_template("submissions.html", submits=results, username=session['username'], problem_id=problem_id)
     
 #############################################################################################################################################
 @app.route("/show_code", methods=["GET", "POST"])
@@ -194,26 +209,27 @@ def show_code():
     if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("submissions.html", username=session['username'], problem=request.form["problem"])
-    else:
-        connection = pymysql.connect(
-            host        = "localhost",
-            user        = "root",
-            password    = "",
-            db          = "endless_marathon",
-            charset     = "utf8",
-            cursorclass = pymysql.cursors.DictCursor)
-
-        result = ""
-        with connection.cursor() as cursor:   
-            sql = "select * from submissions where code_id=%s";
-            cursor.execute(sql, (request.form["code_id"]))
-            result = cursor.fetchall()[0]
-        connection.close()
-
-        line_count = (result["code"].count(os.linesep) + 2) * 1.3
-        return render_template("show_code.html", code=result["code"], submit=result, line=line_count, username=session['username'], problem=request.form["problem"])
+        return render_template("submissions.html", username=session['username'], problem_id=request.form["problem_id"])
     
+    # Connect to MySQL.
+    connection = pymysql.connect(
+        host        = "localhost",
+        user        = "root",
+        password    = "",
+        db          = "endless_marathon",
+        charset     = "utf8",
+        cursorclass = pymysql.cursors.DictCursor)
+
+    # Get Submission Information.
+    result = ""
+    with connection.cursor() as cursor:   
+        sql = "select * from submissions where id=" + str(request.form["submission_id"]);
+        cursor.execute(sql)
+        result = cursor.fetchall()[0]
+        
+    connection.close()
+    line_count = (result["code"].count(os.linesep) + 2) * 1.3
+    return render_template("show_code.html", code=result["code"], submit=result, line=line_count, username=session['username'], problem_id=request.form["problem_id"])
     
     
     
@@ -399,22 +415,6 @@ def sign_up():
 
 
 
-#############################################################################################################################################
-##
-## PROBLEMS
-##
-#############################################################################################################################################
-#############################################################################################################################################
-
-@app.route("/problem/<problem_id>")
-def problem(problem_id=None):
-    return render_template("problem.html", username=session['username'], problem_id=problem_id)
-
-
-
-@app.route("/problems/traveling_salesman/submissions")
-def traveling_salesman_submissions():
-    return submissions(request=request, problem="traveling_salesman")
 
 @app.route("/problems/traveling_salesman/code_test", methods=["GET", "POST"])
 def traveling_salesman_code_test():

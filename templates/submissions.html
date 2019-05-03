@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3 class="underlined">{{ problem }}</h3>
+<h3 class="underlined">{{ problem_id }}</h3>
 <br>
-<a href="/problems/{{ problem }}" class="btn">Problem Statement</a>
-<a href="/problems/{{ problem }}/submit" class="btn">Submit Code</a></li>
-<a href="/problems/{{ problem }}/submissions" class="btn">Submissions</a></li>
-<a href="/problems/{{ problem }}/code_test" class="btn">Code Test</a></li>
+・<a href="/problem/{{ problem_id }}">Problem Statement</a><br>
+・<a href="/problem/{{ problem_id }}/submit">Submit Code</a><br>
+・<a href="/problem/{{ problem_id }}/submissions">Submissions</a><br>
+・<a href="/problem/{{ problem_id }}/code_test">Code Test</a>
 <br>
 <br>
 <br>
 <br>
 <h3 class="underlined">Submissions</h3>
 <form name="form" method="POST" action="/show_code">
-    <input type="hidden" name="problem" value="{{ problem }}">
+    <input type="hidden" name="problem_id" value="{{ problem_id }}">
     <table class="tbl bordered center narrow">
         <thead>
             <tr>
@@ -32,7 +32,7 @@
                 <td>{{ submit.user_id }}</td>
                 <td>{{ submit.created_at }}</td>
                 <td>{{ submit.language_id }}</td>
-                <td><button type='submit' name='code_id' value='{{ submit.id }}'>code</button></td>
+                <td><button type='submit' name='submission_id' value='{{ submit.id }}'>code</button></td>
             </tr>
             {% else %}
             
