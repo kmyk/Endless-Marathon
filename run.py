@@ -29,20 +29,6 @@ def get_recorde_num(connection=None, table=None):
     return 1
 
 
-
-
-#############################################################################################################################################
-##
-## PROBLEMS
-##
-#############################################################################################################################################
-#############################################################################################################################################
-
-@app.route("/problem/<problem_id>")
-def problem(problem_id=None):
-    return render_template("problem.html", username=session['username'], problem_id=problem_id)
-
-    
     
 
 #############################################################################################################################################
@@ -91,19 +77,19 @@ def docker_exec_submit(code=None, lang=None):
     return exit_code, stdout, stderr
 
 #############################################################################################################################################
-def submit(request=None, problem=None):
+@app.route("/problem/<problem_id>/submit", methods=["GET", "POST"])
+def submit(problem_id=None):
     if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("submit.html", error="", username=session['username'], problem=problem)
+        return render_template("submit.html", error="", username=session['username'], problem_id=problem_id)
  
     lang = request.form["lang-sel"]
-    prob = request.form["prob-sel"]
     user = session['username']
     code = request.form["source_code"] 
 
     if code == "":
-        return render_template("submit.html", error="Source Code is empty!", user=user, username=session['username'], problem=problem)
+        return render_template("submit.html", error="Source Code is empty!", user=user, username=session['username'], problem_id=problem_id)
 
     # Compile and run seed1 with Docker.
     exit_code, stdout, stderr = docker_exec_submit(code=code, lang=lang)
@@ -112,7 +98,7 @@ def submit(request=None, problem=None):
     
     # Compile Error
     if exit_code: 
-        return render_template("submit.html", error="Compile Error!\n" + str(stderr), code=code, user=user, username=session['username'], problem=problem)
+        return render_template("submit.html", error="Compile Error!\n" + str(stderr), code=code, user=user, username=session['username'], problem_id=problem_id)
 
     
     # Connect to MySQL.
@@ -129,7 +115,6 @@ def submit(request=None, problem=None):
     ###################################################################
     submission_id = get_recorde_num(connection=connection, table="submissions")
     user_id       = session['username']
-    problem_id    = 1 # Not defined
     language_id   = 1 # Not defined
     time_stamp    = time.strftime('%Y-%m-%d %H:%M:%S')
     
@@ -303,31 +288,16 @@ def code_test(request=None, problem=None):
         return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr, username=session['username'], problem=problem)
 
 
-    
 
-    
-# problems
-##################################################################################################################
-@app.route("/problems/traveling_salesman")
-def traveling_salesman():
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    return render_template("problem.html", username=session['username'], problem="traveling_salesman")
 
-@app.route("/problems/traveling_salesman/submit", methods=["GET", "POST"])
-def traveling_salesman_submit():
-    return submit(request=request, problem="traveling_salesman")
 
-@app.route("/problems/traveling_salesman/submissions")
-def traveling_salesman_submissions():
-    return submissions(request=request, problem="traveling_salesman")
+#############################################################################################################################################
+##
+## LOGIN & LOGOUT
+##
+#############################################################################################################################################
+#############################################################################################################################################
 
-@app.route("/problems/traveling_salesman/code_test", methods=["GET", "POST"])
-def traveling_salesman_code_test():
-    return code_test(request=request, problem="traveling_salesman")
-
-# log in & log out
-##################################################################################################################
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
     if 'username' not in session:
@@ -335,7 +305,7 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
-####################
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if 'username' in session:
@@ -374,8 +344,17 @@ def login():
 
     return render_template("login.html")
     
-# sign up
-##################################################################################################################
+
+    
+    
+    
+#############################################################################################################################################
+##
+## SIGN UP
+##
+#############################################################################################################################################
+#############################################################################################################################################
+
 @app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
     if 'username' in session:
@@ -416,6 +395,30 @@ def sign_up():
 
     return render_template("login.html", error_sign_up="Success!")
 
+
+
+
+
+#############################################################################################################################################
+##
+## PROBLEMS
+##
+#############################################################################################################################################
+#############################################################################################################################################
+
+@app.route("/problem/<problem_id>")
+def problem(problem_id=None):
+    return render_template("problem.html", username=session['username'], problem_id=problem_id)
+
+
+
+@app.route("/problems/traveling_salesman/submissions")
+def traveling_salesman_submissions():
+    return submissions(request=request, problem="traveling_salesman")
+
+@app.route("/problems/traveling_salesman/code_test", methods=["GET", "POST"])
+def traveling_salesman_code_test():
+    return code_test(request=request, problem="traveling_salesman")
 
 
 

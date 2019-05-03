@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3 class="underlined">{{ problem }}</h3>
+<h3 class="underlined">{{ problem_id }}</h3>
 <br>
-<a href="/problems/{{ problem }}" class="btn">Problem Statement</a>
-<a href="/problems/{{ problem }}/submit" class="btn">Submit Code</a></li>
-<a href="/problems/{{ problem }}/submissions" class="btn">Submissions</a></li>
-<a href="/problems/{{ problem }}/code_test" class="btn">Code Test</a></li>
-<br>
-<br>
+<a href="/problem/{{ problem_id }}" class="btn">Problem Statement</a>
+<a href="/problem/{{ problem_id }}/submit" class="btn">Submit Code</a>
+<a href="/problem/{{ problem_id }}/submissions" class="btn">Submissions</a>
+<a href="/problem/{{ problem_id }}/code_test" class="btn">Code Test</a>
 <br>
 <br>
-<h3 class="underlined">Submit Code</h4>
 <br>
-<form name="form" method="POST" action="/problems/{{ problem }}/submit">
+<br>
+<h3 class="underlined">Submit Code</h3>
+<br>
+<form name="form" method="POST" action="/problem/{{ problem_id }}/submit">
     <div class="row">
         <div class="col of-8">
             Source Code : <br>
@@ -27,7 +27,6 @@
             <br>
         </div>
         <div class="col of-4">
-            <input type="hidden" name="prob-sel" value="{{ problem }}">
             Language : <br>
             <div class="input-container select">
                 <select name="lang-sel">
