@@ -31,6 +31,19 @@ def get_recorde_num(connection=None, table=None):
 
 
 
+#############################################################################################################################################
+##
+## PROBLEMS
+##
+#############################################################################################################################################
+#############################################################################################################################################
+
+@app.route("/problem/<problem_id>")
+def problem(problem_id=None):
+    return render_template("problem.html", username=session['username'], problem_id=problem_id)
+
+    
+    
 
 #############################################################################################################################################
 ##
@@ -403,13 +416,75 @@ def sign_up():
 
     return render_template("login.html", error_sign_up="Success!")
 
-##################################################################################################################
+
+
+
+
+#############################################################################################################################################
+##
+## INDEX
+##
+#############################################################################################################################################
+#############################################################################################################################################
+
 @app.route("/")
 def index():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template("index.html", username=session['username'])
+    
+    # Connect to MySQL.
+    connection = pymysql.connect(
+        host        = "localhost",
+        user        = "root",
+        password    = "",
+        db          = "endless_marathon",
+        charset     = "utf8",
+        cursorclass = pymysql.cursors.DictCursor)
+    
+    # Get problem information.
+    problems = ""
+    with connection.cursor() as cursor:   
+        sql = "select * from problems" 
+        cursor.execute(sql)
+        problems = cursor.fetchall()
+    
+    return render_template("index.html", username=session['username'], problems=problems)
 
 if __name__ == "__main__":
     app.run(host="localhost", port=5000)
 
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

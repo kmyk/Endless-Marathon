@@ -4,6 +4,12 @@
     <div class="col of-9">
         <h4 class="underlined">はじめに</h4>
         ニャンちゅう〜．
+        <br>
+        <br>
+        <h4 class="underlined">問題</h4>
+        {% for problem in problems %}
+        ・<a href="/problem/{{ problem.id }}">{{ problem.name }}</a><br>
+        {% endfor %}
     </div>
     <div class="col of-3">
         <ul class="link-list green">
