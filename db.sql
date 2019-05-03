@@ -14,14 +14,16 @@ CREATE TABLE problems (
     created_at      DATETIME NOT NULL
 );
 
-DROP TABLE IF EXISTS testcases;
-CREATE TABLE testcases (
-    id              BIGINT NOT NULL PRIMARY KEY,
-    problem_id      BIGINT NOT NULL PRIMARY KEY,
-    name            VARCHAR(255) NOT NULL,
-    input           TEXT NOT NULL,
-    created_at      DATETIME NOT NULL,
-    FOREIGN KEY (problem_id) REFERENCES problems(id)
+INSERT INTO problems (
+    id,
+    name,
+    statement,
+    created_at
+) VALUES (
+    1,
+    "traveling_salesman",
+    "nyanchu",
+    "2019-03-14 01:51:13"
 );
 
 DROP TABLE IF EXISTS languages;
@@ -31,6 +33,20 @@ CREATE TABLE languages (
     how_to_compile  TEXT NOT NULL,
     how_to_execute  TEXT NOT NULL,
     created_at      DATETIME NOT NULL
+);
+
+INSERT INTO languages (
+    id,
+    name,
+    how_to_compile,
+    how_to_execute,
+    created_at
+) VALUES (
+    1,
+    "cpp",
+    "nyanchu",
+    "nyanchu",
+    "2019-03-14 01:51:13"
 );
 
 DROP TABLE IF EXISTS submissions;
@@ -50,10 +66,8 @@ DROP TABLE IF EXISTS submission_results;
 CREATE TABLE submission_results (
     id              BIGINT NOT NULL PRIMARY KEY,
     submission_id   BIGINT NOT NULL,
-    testcase_id     BIGINT NOT NULL,
     execution_time  INT NOT NULL,
     score           FLOAT NOT NULL,
     created_at      DATETIME NOT NULL,
-    FOREIGN KEY (submission_id) REFERENCES submissions(id),
-    FOREIGN KEY (testcase_id) REFERENCES testcases(id)
+    FOREIGN KEY (submission_id) REFERENCES submissions(id)
 );

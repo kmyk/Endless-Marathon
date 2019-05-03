@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3 class="underlined">{{ problem }}</h3>
+<h3 class="underlined">{{ problem_id }}</h3>
 <br>
-<a href="/problems/{{ problem }}" class="btn">Problem Statement</a>
-<a href="/problems/{{ problem }}/submit" class="btn">Submit Code</a></li>
-<a href="/problems/{{ problem }}/submissions" class="btn">Submissions</a></li>
-<a href="/problems/{{ problem }}/code_test" class="btn">Code Test</a></li>
+・<a href="/problem/{{ problem_id }}">Problem Statement</a><br>
+・<a href="/problem/{{ problem_id }}/submit">Submit Code</a><br>
+・<a href="/problem/{{ problem_id }}/submissions">Submissions</a><br>
+・<a href="/problem/{{ problem_id }}/code_test">Code Test</a>
 <br>
 <br>
 <br>
