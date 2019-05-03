@@ -157,7 +157,7 @@ def submit(problem_id=None):
         
         
     connection.close()
-    return render_template("submission_success.html", username=session['username'])
+    return render_template("submission_success.html", username=session['username'], problem_id=problem_id)
 
 
 
