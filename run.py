@@ -289,19 +289,20 @@ def docker_exec_code_test(code=None, lang=None, stdin=None):
     stderr = stderr.decode("utf8") if stderr is not None else ""
     return exit_code, stdout, stderr
 
-###################
-def code_test(request=None, problem=None):
+#############################################################################################################################################
+@app.route("/problem/<problem_id>/code_test")
+def code_test(problem_id=None):
     if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template("code_test.html", code="", stdin="", stdout="", stderr="", username=session['username'], problem=problem)
-    else:
-        code  = request.form["code"] if "code" in request.form else ""
-        stdin = request.form["stdin"] if "stdin" in request.form else ""
-        lang  = request.form["lang-sel"]
+        return render_template("code_test.html", code="", stdin="", stdout="", stderr="", username=session['username'], problem_id=problem_id)
+    
+    code  = request.form["code"] if "code" in request.form else ""
+    stdin = request.form["stdin"] if "stdin" in request.form else ""
+    lang  = request.form["lang-sel"]
 
-        exit_code, stdout, stderr = docker_exec_code_test(code, lang, stdin)
-        return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr, username=session['username'], problem=problem)
+    exit_code, stdout, stderr = docker_exec_code_test(code, lang, stdin)
+    return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr, username=session['username'], problem_id=problem_id)
 
 
 
@@ -411,14 +412,6 @@ def sign_up():
 
     return render_template("login.html", error_sign_up="Success!")
 
-
-
-
-
-
-@app.route("/problems/traveling_salesman/code_test", methods=["GET", "POST"])
-def traveling_salesman_code_test():
-    return code_test(request=request, problem="traveling_salesman")
 
 
 
