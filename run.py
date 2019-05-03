@@ -153,7 +153,7 @@ def submit(request=None, problem=None):
 
 #############################################################################################################################################
 ##
-## SUBMIT
+## SUBMITTIONS
 ##
 #############################################################################################################################################
 #############################################################################################################################################
@@ -162,7 +162,7 @@ def submissions(request=None, problem=None):
     if 'username' not in session:
         return redirect(url_for('login'))
     
-    user = session['username']
+    # Connect to MySQL.
     connection = pymysql.connect(
         host        = "localhost",
         user        = "root",
@@ -171,15 +171,51 @@ def submissions(request=None, problem=None):
         charset     = "utf8",
         cursorclass = pymysql.cursors.DictCursor)
     
+    user_id = session['username']
+    
+    # user_name to user_id
+    with connection.cursor() as cursor:   
+        sql = "select id from users where name='" + user_id + "'"
+        cursor.execute(sql)
+        user_id = cursor.fetchall()[0]['id']
+
+    # Get Submission Information.
     results = ""
     with connection.cursor() as cursor:   
-        sql = "select * from submissions where user_id=%s";
-        cursor.execute(sql, (user))
+        sql = "select * from submissions where user_id=" + str(user_id);
+        cursor.execute(sql)
         results = cursor.fetchall()
+        
     connection.close()
-
     results.reverse()
     return render_template("submissions.html", submits=results, username=session['username'], problem=problem)
+    
+#############################################################################################################################################
+@app.route("/show_code", methods=["GET", "POST"])
+def show_code():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    if request.method == "GET":
+        return render_template("submissions.html", username=session['username'], problem=request.form["problem"])
+    else:
+        connection = pymysql.connect(
+            host        = "localhost",
+            user        = "root",
+            password    = "",
+            db          = "endless_marathon",
+            charset     = "utf8",
+            cursorclass = pymysql.cursors.DictCursor)
+
+        result = ""
+        with connection.cursor() as cursor:   
+            sql = "select * from submissions where code_id=%s";
+            cursor.execute(sql, (request.form["code_id"]))
+            result = cursor.fetchall()[0]
+        connection.close()
+
+        line_count = (result["code"].count(os.linesep) + 2) * 1.3
+        return render_template("show_code.html", code=result["code"], submit=result, line=line_count, username=session['username'], problem=request.form["problem"])
+    
     
     
     
@@ -255,31 +291,7 @@ def code_test(request=None, problem=None):
 
 
     
-##################################################################################################################
-@app.route("/show_code", methods=["GET", "POST"])
-def show_code():
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    if request.method == "GET":
-        return render_template("submissions.html", username=session['username'], problem=request.form["problem"])
-    else:
-        connection = pymysql.connect(
-            host        = "localhost",
-            user        = "root",
-            password    = "",
-            db          = "endless_marathon",
-            charset     = "utf8",
-            cursorclass = pymysql.cursors.DictCursor)
 
-        result = ""
-        with connection.cursor() as cursor:   
-            sql = "select * from submissions where code_id=%s";
-            cursor.execute(sql, (request.form["code_id"]))
-            result = cursor.fetchall()[0]
-        connection.close()
-
-        line_count = (result["code"].count(os.linesep) + 2) * 1.3
-        return render_template("show_code.html", code=result["code"], submit=result, line=line_count, username=session['username'], problem=request.form["problem"])
     
 # problems
 ##################################################################################################################

@@ -16,25 +16,23 @@
     <table class="tbl bordered center narrow">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Problem</th>
-                <th>UserID</th>
-                <th>time</th>
-                <th>language</th>
-                <th>score</th>
-                <th>code</th>
+                <th>Submission ID</th>
+                <th>Problem ID</th>
+                <th>User ID</th>
+                <th>Date</th>
+                <th>Language</th>
+                <th>Code</th>
             </tr>
         </thead>
         <tbody>
            {% for submit in submits %}
             <tr>
-                <td>{{ submit.code_id }}</td>
+                <td>{{ submit.id }}</td>
                 <td>{{ submit.problem_id }}</td>
                 <td>{{ submit.user_id }}</td>
-                <td>{{ submit.time_stamp }}</td>
-                <td>{{ submit.language }}</td>
-                <td>{{ submit.score }}</td>
-                <td><button type='submit' name='code_id' value='{{ submit.code_id }}'>code</button></td>
+                <td>{{ submit.created_at }}</td>
+                <td>{{ submit.language_id }}</td>
+                <td><button type='submit' name='code_id' value='{{ submit.id }}'>code</button></td>
             </tr>
             {% else %}
             
