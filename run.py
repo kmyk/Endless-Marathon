@@ -290,7 +290,7 @@ def docker_exec_code_test(code=None, lang=None, stdin=None):
     return exit_code, stdout, stderr
 
 #############################################################################################################################################
-@app.route("/problem/<problem_id>/code_test")
+@app.route("/problem/<problem_id>/code_test", methods=["GET", "POST"])
 def code_test(problem_id=None):
     if 'username' not in session:
         return redirect(url_for('login'))
