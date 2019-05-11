@@ -308,6 +308,75 @@ def code_test(problem_id=None):
 
 
 
+
+#############################################################################################################################################
+##
+## STANDINGS
+##
+#############################################################################################################################################
+#############################################################################################################################################
+
+@app.route("/problem/<problem_id>/standings")
+def standings(problem_id=None):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    # Connect to MySQL.
+    connection = pymysql.connect(
+        host        = "localhost",
+        user        = "root",
+        password    = "root",
+        db          = "endless_marathon",
+        charset     = "utf8",
+        cursorclass = pymysql.cursors.DictCursor)
+    
+    # Get Standings Information.
+    standing = ""
+    with connection.cursor() as cursor:
+        sql = '''
+        SELECT
+            result.user_name,
+            result.language,
+            MAX(result.score) AS score,
+            result.time
+        FROM (
+            SELECT
+                submission_results.submission_id AS submission_id,
+                submissions.problem_id AS problem_id,
+                problems.name AS problem_name,
+                users.name AS user_name,
+                languages.name AS language,
+                submission_results.score AS score,
+                submission_results.execution_time AS time,
+                submissions.created_at AS date
+            FROM
+                submission_results,
+                submissions,
+                users,
+                languages,
+                problems
+            WHERE
+                submission_results.submission_id = submissions.id AND
+                submissions.user_id = users.id AND
+                submissions.language_id = languages.id AND
+                submissions.problem_id = problems.id AND
+                problems.id = %s
+        ) AS result
+        GROUP BY
+            result.user_name,
+            result.language,
+            result.time
+        '''
+        cursor.execute(sql, (int(problem_id)))
+        standing = cursor.fetchall()
+        
+    connection.close()
+    
+    return render_template("standings.html", standing=standing, problem_id=problem_id, username=session['username'])
+    
+
+
+
 #############################################################################################################################################
 ##
 ## LOGIN & LOGOUT

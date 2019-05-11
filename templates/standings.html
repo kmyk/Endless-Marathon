@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3 class="underlined">{{ problem_id }} standings</h3>
+<br>
+・<a href="/problem/{{ problem_id }}">Problem Statement</a><br>
+・<a href="/problem/{{ problem_id }}/submit">Submit Code</a><br>
+・<a href="/problem/{{ problem_id }}/submissions">Submissions</a><br>
+・<a href="/problem/{{ problem_id }}/standings">Standings</a><br>
+・<a href="/problem/{{ problem_id }}/code_test">Code Test</a>
+<br>
+<br>
+<br>
+<br>
+<table class="tbl bordered center narrow">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Language</th>
+            <th>Score</th>
+            <th>Execution Time</th>
+        </tr>
+    </thead>
+    <tbody>
+       {% for submit in standing %}
+        <tr>
+            <td>{{ submit.user_name }}</td>
+            <td>{{ submit.language }}</td>
+            <td>{{ submit.score }}</td>
+            <td>{{ submit.time }}</td>
+        </tr>
+        {% else %}
+
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+                
