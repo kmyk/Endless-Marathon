@@ -5,6 +5,7 @@ import pathlib
 import queue
 import sys
 import threading
+import json
 
 import docker  # https://pypi.org/project/docker
 
@@ -16,9 +17,15 @@ DOCKER_IMAGE = "ubuntu-judge"
 
 from flask import *
 app = Flask(__name__)
-app.secret_key = "nyanchu~"
+
+def set_secret_key():
+    f = open("secret_key.json", "r")
+    s_key = json.load(f)
+    print(s_key)
+    app.secret_key = s_key["app"]
 
 
+#############################################################################################################################################
 
 def get_recorde_num(connection=None, table=None):
     with connection.cursor() as cursor:   
@@ -535,6 +542,7 @@ def index():
     return render_template("index.html", username=session['username'], problems=problems)
 
 if __name__ == "__main__":
+    set_secret_key()
     app.run(host="localhost", port=5000)
 
 
