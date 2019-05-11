@@ -18,22 +18,24 @@
         <thead>
             <tr>
                 <th>Submission ID</th>
-                <th>Problem ID</th>
-                <th>User ID</th>
-                <th>Date</th>
+                <th>User Name</th>
                 <th>Language</th>
+                <th>Score</th>
+                <th>Execution Time</th>
+                <th>Date</th>
                 <th>Code</th>
             </tr>
         </thead>
         <tbody>
            {% for submit in submits %}
             <tr>
-                <td>{{ submit.id }}</td>
-                <td>{{ submit.problem_id }}</td>
-                <td>{{ submit.user_id }}</td>
-                <td>{{ submit.created_at }}</td>
-                <td>{{ submit.language_id }}</td>
-                <td><button type='submit' name='submission_id' value='{{ submit.id }}'>code</button></td>
+                <td>{{ submit.submission_id }}</td>
+                <td>{{ submit.user_name }}</td>
+                <td>{{ submit.language }}</td>
+                <td>{{ submit.score }}</td>
+                <td>{{ submit.time }}</td>
+                <td>{{ submit.date }}</td>
+                <td><button type='submit' name='submission_id' value='{{ submit.submission_id }}'>code</button></td>
             </tr>
             {% else %}
             
@@ -42,4 +44,3 @@
     </table>
 </form>
 {% endblock %}
-                

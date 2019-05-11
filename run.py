@@ -193,15 +193,34 @@ def submissions(problem_id=None):
         user_id = cursor.fetchall()[0]['id']
 
     # Get Submission Information.
-    results = ""
-    with connection.cursor() as cursor:   
-        sql = "select * from submissions where user_id=" + str(user_id);
+    result = ""
+    with connection.cursor() as cursor:
+        sql = '''
+        SELECT
+            submission_results.submission_id AS submission_id,
+            users.name AS user_name,
+            languages.name AS language,
+            submission_results.score AS score,
+            submission_results.execution_time AS time,
+            submissions.created_at AS date
+        FROM
+            submission_results,
+            submissions,
+            users,
+            languages,
+            problems
+        WHERE
+            submission_results.submission_id = submissions.id AND
+            submissions.user_id = users.id AND
+            submissions.language_id = languages.id AND
+            problems.id = ''' + str(problem_id) + ''' AND
+            users.id = ''' + str(user_id)
         cursor.execute(sql)
-        results = cursor.fetchall()
+        result = cursor.fetchall()
         
     connection.close()
-    results.reverse()
-    return render_template("submissions.html", submits=results, username=session['username'], problem_id=problem_id)
+    
+    return render_template("submissions.html", submits=result, username=session['username'], problem_id=problem_id)
     
 #############################################################################################################################################
 @app.route("/show_code", methods=["GET", "POST"])
