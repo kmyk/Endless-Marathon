@@ -1,20 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3 class="underlined">{{ problem_id }}</h3>
-<br>
-・<a href="/problem/{{ problem_id }}">Problem Statement</a><br>
-・<a href="/problem/{{ problem_id }}/submit">Submit Code</a><br>
-・<a href="/problem/{{ problem_id }}/submissions">Submissions</a><br>
-・<a href="/problem/{{ problem_id }}/standings">Standings</a><br>
-・<a href="/problem/{{ problem_id }}/code_test">Code Test</a>
+・<a href="/problem/{{ problem.id }}">Problem Statement</a><br>
+・<a href="/problem/{{ problem.id }}/submit">Submit Code</a><br>
+・<a href="/problem/{{ problem.id }}/submissions">Submissions</a><br>
+・<a href="/problem/{{ problem.id }}/standings">Standings</a><br>
+・<a href="/problem/{{ problem.id }}/code_test">Code Test</a>
 <br>
 <br>
+<h3 class="underlined">{{ problem.name }}</h3><br>
+{{ problem.statement }}
 <br>
 <br>
-{% if problem == 'traveling_salesman' %}
-    {% include "problems/traveling_salesman.html" %}
-{% endif %}
-
 <br>
 <br>
 {% endblock %}

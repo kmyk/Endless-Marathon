@@ -34,6 +34,15 @@ def get_recorde_num(connection=None, table=None):
     return 1
 
 
+def get_connection():
+    connection = pymysql.connect(
+        host        = "localhost",
+        user        = "root",
+        password    = "root",
+        db          = "endless_marathon",
+        charset     = "utf8",
+        cursorclass = pymysql.cursors.DictCursor)
+    return connection
 
 
 #############################################################################################################################################
@@ -45,7 +54,18 @@ def get_recorde_num(connection=None, table=None):
 
 @app.route("/problem/<problem_id>")
 def problem(problem_id=None):
-    return render_template("problem.html", username=session['username'], problem_id=problem_id)
+    
+    # Connect to MySQL
+    connection = get_connection()
+    
+    problem = ""
+    with connection.cursor() as cursor:   
+        sql = "select * from problems where id = " + str(problem_id) 
+        cursor.execute(sql)
+        problem = cursor.fetchall()[0]
+    
+    return render_template("problem.html", username=session['username'], problem=problem)
+
 
 
     
@@ -121,13 +141,7 @@ def submit(problem_id=None):
 
     
     # Connect to MySQL.
-    connection = pymysql.connect(
-        host        = "localhost",
-        user        = "root",
-        password    = "root",
-        db          = "endless_marathon",
-        charset     = "utf8",
-        cursorclass = pymysql.cursors.DictCursor)
+    connection = get_connection()
     
     
     # Register the submission.
@@ -181,13 +195,7 @@ def submissions(problem_id=None):
         return redirect(url_for('login'))
     
     # Connect to MySQL.
-    connection = pymysql.connect(
-        host        = "localhost",
-        user        = "root",
-        password    = "root",
-        db          = "endless_marathon",
-        charset     = "utf8",
-        cursorclass = pymysql.cursors.DictCursor)
+    connection = get_connection()
     
     user_id = session['username']
     
@@ -236,13 +244,7 @@ def show_code():
         return render_template("submissions.html", username=session['username'], problem_id=request.form["problem_id"])
     
     # Connect to MySQL.
-    connection = pymysql.connect(
-        host        = "localhost",
-        user        = "root",
-        password    = "root",
-        db          = "endless_marathon",
-        charset     = "utf8",
-        cursorclass = pymysql.cursors.DictCursor)
+    connection = get_connection()
 
     # Get Submission Information.
     result = ""
@@ -346,13 +348,7 @@ def standings(problem_id=None):
         return redirect(url_for('login'))
     
     # Connect to MySQL.
-    connection = pymysql.connect(
-        host        = "localhost",
-        user        = "root",
-        password    = "root",
-        db          = "endless_marathon",
-        charset     = "utf8",
-        cursorclass = pymysql.cursors.DictCursor)
+    connection = get_connection()
     
     # Get Standings Information.
     standing = ""
@@ -422,13 +418,9 @@ def login():
         return redirect(url_for('index'))
 
     if request.method == "POST":
-        connection = pymysql.connect(
-            host        = "localhost",
-            user        = "root",
-            password    = "root",
-            db          = "endless_marathon",
-            charset     = "utf8",
-            cursorclass = pymysql.cursors.DictCursor)
+        
+        # Connect to MySQL.
+        connection = get_connection()
 
         username = request.form['username']
         password = request.form['password']
@@ -479,14 +471,9 @@ def sign_up():
         if (password  == ""):
             return render_template("login.html", error_sign_up="Password is empty!")
         
-        connection = pymysql.connect(
-            host        = "localhost",
-            user        = "root",
-            password    = "root",
-            db          = "endless_marathon",
-            charset     = "utf8",
-            cursorclass = pymysql.cursors.DictCursor)
-
+        # Connect to MySQL.
+        connection = get_connection()
+        
         with connection.cursor() as cursor:   
             sql = "select count(name) from users where name='" + user_id + "'";
             cursor.execute(sql)
@@ -522,13 +509,7 @@ def index():
         return redirect(url_for('login'))
     
     # Connect to MySQL.
-    connection = pymysql.connect(
-        host        = "localhost",
-        user        = "root",
-        password    = "root",
-        db          = "endless_marathon",
-        charset     = "utf8",
-        cursorclass = pymysql.cursors.DictCursor)
+    connection = get_connection()
     
     # Get problem information.
     problems = ""
@@ -538,6 +519,14 @@ def index():
         problems = cursor.fetchall()
     
     return render_template("index.html", username=session['username'], problems=problems)
+
+
+
+
+
+
+#############################################################################################################################################
+#############################################################################################################################################
 
 if __name__ == "__main__":
     app.run(host="localhost", port=5000)
