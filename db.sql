@@ -14,18 +14,6 @@ CREATE TABLE problems (
     created_at      DATETIME NOT NULL
 );
 
-INSERT INTO problems (
-    id,
-    name,
-    statement,
-    created_at
-) VALUES (
-    1,
-    "traveling_salesman",
-    "nyanchu",
-    "2019-03-14 01:51:13"
-);
-
 DROP TABLE IF EXISTS languages;
 CREATE TABLE languages (
     id              BIGINT NOT NULL PRIMARY KEY,
@@ -33,20 +21,6 @@ CREATE TABLE languages (
     how_to_compile  TEXT NOT NULL,
     how_to_execute  TEXT NOT NULL,
     created_at      DATETIME NOT NULL
-);
-
-INSERT INTO languages (
-    id,
-    name,
-    how_to_compile,
-    how_to_execute,
-    created_at
-) VALUES (
-    1,
-    "cpp",
-    "nyanchu",
-    "nyanchu",
-    "2019-03-14 01:51:13"
 );
 
 DROP TABLE IF EXISTS submissions;
