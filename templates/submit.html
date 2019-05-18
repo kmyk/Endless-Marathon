@@ -30,8 +30,9 @@
             <div class="input-container select">
                 <select name="lang-sel">
                     <optgroup label="Language">
-                        <option value="cpp">C++</option>
-                        <option value="java">Java</option>
+                        {% for lang in langs %}
+                            <option value="{{ lang.name }}">{{ lang.name }}</option>
+                        {% endfor %}
                     </optgroup>
                 </select>
             </div><br>

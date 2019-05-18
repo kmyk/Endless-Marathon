@@ -32,8 +32,13 @@
             <div class="input-container select">
                 <select name="lang-sel">
                     <optgroup label="Language">
-                        <option value="cpp">C++</option>
-                        <option value="java">Java</option>
+                        {% for lang in langs %}
+                            {% if lang.name == sel %}
+                                <option value="{{ lang.name }}" selected>{{ lang.name }}</option>
+                            {% else %}
+                                <option value="{{ lang.name }}">{{ lang.name }}</option>
+                            {% endif %}
+                        {% endfor %}
                     </optgroup>
                 </select>
             </div><br>

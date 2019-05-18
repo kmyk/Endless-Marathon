@@ -120,8 +120,21 @@ def docker_exec_submit(code=None, lang=None):
 def submit(problem_id=None):
     if 'username' not in session:
         return redirect(url_for('login'))
+    
+    # Connect to MySQL.
+    connection = get_connection()
+
+    # Get Submission Information.
+    langs = ""
+    with connection.cursor() as cursor:   
+        sql = "select * from languages"
+        cursor.execute(sql)
+        langs = cursor.fetchall()
+    
+    # Show Submit Page.
     if request.method == "GET":
-        return render_template("submit.html", error="", username=session['username'], problem_id=problem_id)
+        connection.close()
+        return render_template("submit.html", langs=langs, username=session['username'], problem_id=problem_id)
  
     lang = request.form["lang-sel"]
     user = session['username']
@@ -140,16 +153,18 @@ def submit(problem_id=None):
         return render_template("submit.html", error="Compile Error!\n" + str(stderr), code=code, user=user, username=session['username'], problem_id=problem_id)
 
     
-    # Connect to MySQL.
-    connection = get_connection()
-    
-    
     # Register the submission.
     ###################################################################
     submission_id = get_recorde_num(connection=connection, table="submissions")
     user_id       = session['username']
-    language_id   = 1 # Not defined
+    language_id   = lang
     time_stamp    = time.strftime('%Y-%m-%d %H:%M:%S')
+    
+    # language_name to language_id
+    with connection.cursor() as cursor:   
+        sql = "select id from languages where name='" + language_id + "'"
+        cursor.execute(sql)
+        language_id = cursor.fetchall()[0]['id']
     
     # user_name to user_id
     with connection.cursor() as cursor:   
@@ -320,15 +335,28 @@ def docker_exec_code_test(code=None, lang=None, stdin=None):
 def code_test(problem_id=None):
     if 'username' not in session:
         return redirect(url_for('login'))
-    if request.method == "GET":
-        return render_template("code_test.html", code="", stdin="", stdout="", stderr="", username=session['username'], problem_id=problem_id)
     
+    # Connect to MySQL.
+    connection = get_connection()
+
+    # Get Submission Information.
+    langs = ""
+    with connection.cursor() as cursor:   
+        sql = "select * from languages"
+        cursor.execute(sql)
+        langs = cursor.fetchall()
+
+    connection.close()
+    
+    if request.method == "GET":
+        return render_template("code_test.html", langs=langs, username=session['username'], problem_id=problem_id)
+  
     code  = request.form["code"] if "code" in request.form else ""
     stdin = request.form["stdin"] if "stdin" in request.form else ""
     lang  = request.form["lang-sel"]
 
     exit_code, stdout, stderr = docker_exec_code_test(code, lang, stdin)
-    return render_template("code_test.html", code=code, stdin=stdin, stdout=stdout, stderr=stderr, username=session['username'], problem_id=problem_id)
+    return render_template("code_test.html", langs=langs, sel=lang, code=code, stdin=stdin, stdout=stdout, stderr=stderr, username=session['username'], problem_id=problem_id)
 
 
 
