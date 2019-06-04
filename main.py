@@ -11,16 +11,15 @@ import docker  # https://pypi.org/project/docker
 
 #############################################################################################################################################
 
-DOCKER_IMAGE = "ubuntu-judge"
+DOCKER_IMAGE = os.environ.get("JUDGE_IMAGE", "ubuntu-judge")
 
 #############################################################################################################################################
 
 from flask import *
 app = Flask(__name__)
 
-f = open("secret_key.json", "r")
-s_key = json.load(f)
-app.secret_key = s_key["app"]
+if "FLASK_SECRET" in os.environ:
+    app.secret_key = os.environ["FLASK_SECRET"]
 
 
 #############################################################################################################################################
@@ -36,11 +35,11 @@ def get_recorde_num(connection=None, table=None):
 
 def get_connection():
     connection = pymysql.connect(
-        host        = "localhost",
-        user        = "root",
-        password    = "root",
-        db          = "endless_marathon",
-        charset     = "utf8",
+        host        = os.environ.get("MYSQL_HOST", "localhost"),
+        user        = os.environ.get("MYSQL_USER", "root"),
+        password    = os.environ.get("MYSQL_PASSWORD", "root"),
+        db          = os.environ.get("MYSQL_DATABASE", "endless_marathon"),
+        charset     = os.environ.get("MYSQL_CHARSET", "utf8"),
         cursorclass = pymysql.cursors.DictCursor)
     return connection
 
