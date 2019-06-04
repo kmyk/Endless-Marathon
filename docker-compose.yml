@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+    frontend:
+        build:
+            context: .
+            dockerfile: Dockerfile.frontend
+        volumes:
+            -   ./:/frontend
+        working_dir: /frontend
+        command: [ "gunicorn", "main:app", "-b", "0.0.0.0:8000" ]
+        environment:
+            JUDGE_IMAGE: ubuntu-judge
+            FLASK_SECRET: secretsecret
+            MYSQL_HOST: database
+            MYSQL_DATABASE: endless_marathon
+            MYSQL_USER: kosakkun
+            MYSQL_PASSWORD: kosakkun
+            DOCKER_HOST: docker
+        links:
+            -   database
+            -   docker
+        ports:
+            -   127.0.0.1:8000:8000
+
+    database:
+        image: mysql:8
+        volumes:
+            -   ./initdb:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: endless_marathon
+            MYSQL_USER: kosakkun
+            MYSQL_PASSWORD: kosakkun
+
+    docker:
+        image: docker:stable-dind
+        privileged: true
