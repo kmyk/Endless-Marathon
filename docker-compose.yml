@@ -17,7 +17,7 @@ services:
             MYSQL_DATABASE: endless_marathon
             MYSQL_USER: kosakkun
             MYSQL_PASSWORD: kosakkun
-            DOCKER_HOST: docker
+            DOCKER_HOST: docker:2375
         links:
             -   database
             -   docker
