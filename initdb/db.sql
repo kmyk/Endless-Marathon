@@ -45,3 +45,16 @@ CREATE TABLE submission_results (
     created_at      DATETIME NOT NULL,
     FOREIGN KEY (submission_id) REFERENCES submissions(id)
 );
+
+
+-- workaround for https://github.com/kosakkun/Endless-Marathon/issues/14
+INSERT INTO problems (
+    id,  name, statement, created_at
+) VALUES (
+   1, 'tsp', 'nyanchu', '2019-01-01 00:00:00'
+);
+INSERT INTO languages (
+    id, name, how_to_compile, how_to_execute, created_at
+) VALUES (
+    1, 'cpp', 'nyanchu', 'nyanchu', '2019-01-01 00:00:00'
+);
